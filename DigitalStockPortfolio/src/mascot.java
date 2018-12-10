@@ -1,5 +1,5 @@
 
-public class mascot {
+public class mascot {  
 
     oooo                           oo
   o      o                       o    o
