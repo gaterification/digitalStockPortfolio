@@ -1,12 +1,11 @@
 # Default
 /.metadata/
-/.recommenders/
 
 # Eclipse
 .classpath
 .project
 .settings/
-
+.recommenders/
  
 # Intellij
 .idea/

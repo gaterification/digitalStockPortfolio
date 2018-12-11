@@ -1,11 +1,26 @@
-import java.io.IOException;
+// import java.io.IOException;
 
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
+public class Nasdaq extends StockExchange {
+	/*public void getMarketPriceTest(String test) throws IOException {
+		Stock s = YahooFinance.get(test);
+		System.out.print(s);
+	}*/
 
-public class Nasdaq {
-public void getMarketPrice(String test) throws IOException {
-	Stock s = YahooFinance.get(test);
-	System.out.print(s);
-}
+	@Override
+	public Share buyShare(String isinNo, double amount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double sellShare(Share share) {
+		// TODO Auto-generated method stub
+		return 0.0;
+	}
+
+	@Override
+	public double getMarketPrice(String isinNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
