@@ -23,15 +23,21 @@ public class JobWorker {
 	}
 	
 	public void removeJob(int id) {
-		// TODO: implement
+		this.jobs.removeIf(e -> e.getId() == id);
 	}
 	
 	public void addJob(Job job) {
-		// TODO: implement
+		this.jobs.add(job);
 	}
 	
 	public void runJobs(CustodyAccount custodyAccount) {
-		// TODO: implement
+		for (Job job : this.jobs) {
+			if (job.getJobType() == JobType.BUY) {
+				
+			} else if (job.getJobType() == JobType.SELL) {
+				
+			}
+		}
 	}
 	
 	public ArrayList<Job> getJobs() {
