@@ -1,3 +1,3 @@
 public enum JobType {
-	// TODO: create enum
+	Buy, Sell
 }

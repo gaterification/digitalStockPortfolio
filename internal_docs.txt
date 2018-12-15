@@ -1,0 +1,1 @@
+Singleton implementation: https://www.geeksforgeeks.org/singleton-design-pattern/
