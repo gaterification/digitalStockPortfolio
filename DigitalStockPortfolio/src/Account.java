@@ -1,3 +1,4 @@
+import javax.security.auth.login.AccountException;
 
 public class Account {
 	// class attributes
@@ -25,9 +26,9 @@ public class Account {
 		return account;
 	}
 
-	public double disburse(double amount) /* throws AccountException */ {
+	public double disburse(double amount) throws AccountException {
 		if (accountBalance < amount) {
-			/* throw new AccountException ("Betrag ist grösser als Saldo"); */
+			throw new AccountException ("Betrag ist grösser als Saldo");
 		} else {
 			accountBalance = accountBalance - amount;
 
