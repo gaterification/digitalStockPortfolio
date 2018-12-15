@@ -19,7 +19,7 @@ public class CustodyAccount {
 		this.shares = new ArrayList<Share>();
 		this.account = account;
 		this.stockExchange = new Nasdaq();
-		this.jobWorker = JobWorker.getJobWorker(this.stockExchange); // TODO: singleton
+		this.jobWorker = JobWorker.getJobWorker(this.stockExchange, this); // TODO: singleton
 	}
 	
 	// methods

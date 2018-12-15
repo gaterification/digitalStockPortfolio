@@ -26,9 +26,9 @@ public class Account {
 		return account;
 	}
 
-	public double disburse(double amount) throws AccountException {
+	public double disburse(double amount) {
 		if (accountBalance < amount) {
-			throw new AccountException ("Betrag ist grösser als Saldo");
+			//throw new AccountException ("Betrag ist grösser als Saldo");
 		} else {
 			accountBalance = accountBalance - amount;
 
