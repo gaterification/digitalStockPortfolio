@@ -31,24 +31,30 @@ public class CustodyAccount {
 	}
 		
 	public double calculateWinOrLoss() {
-		// TODO: implement
+		// Arraylist mit vorhandenen Aktien aufrufen und Kaufwert zwischenspeichern, aktienkurs von vorhandenen aktien abrufen, 
+		// aktienkus aktuell und kaufprais verlgeichen, Neuer Wert - alter Wert = WinOrLoss
 		return 0.0;
 	}
 	
 	public void buyShare(String isinNo) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.BUY);
+		this.jobWorker.addJob(job);
 	}
 	
 	public void sellShare(String isinNo) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.SELL);
+		this.jobWorker.addJob(job);
 	}
 	
 	public void defineLimitSell(String isinNo, double limit) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.SELL, limit);
+		this.jobWorker.addJob(job);
+
 	}
 	
 	public void defineLimitBuy(String isinNo, double limit) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.BUY, limit);
+		this.jobWorker.addJob(job);
 	}
 	
 	public double getMarketPrice(String isinNo) {
