@@ -1,6 +1,6 @@
 
 public class mascot {  
-
+/*
     oooo                           oo
   o      o                       o    o
  o         o                    o      o
@@ -190,5 +190,5 @@ xxxxx             xx     xsssssssssssssssssssssssssssssss
 .........     ............
 .........     ...........
 .........     ...........
-	
+*/	
 }

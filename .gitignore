@@ -1,20 +1,6 @@
-# Default
-/.metadata/
-
-# Eclipse
-.classpath
-.project
-.settings/
-.recommenders/
- 
-# Intellij
-.idea/
-*.iml
-*.iws
- 
-# Mac
-.DS_Store
- 
-# Maven
-log/
-target/
+/bin/
+**/DigitalStockPortfolio/target/
+**/DigitalStockPortfolio/bin/
+**/DigitalStockPortfolio/.settings/
+**/.recommenders/
+/.metadata/*

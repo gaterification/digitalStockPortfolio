@@ -1,3 +1,3 @@
 public enum JobType {
-	Buy, Sell
+	BUY, SELL
 }
