@@ -41,7 +41,8 @@ public class CustodyAccount {
 	}
 	
 	public void sellShare(String isinNo) {
-		// TODO: implement 
+		Job job = new Job(isinNo, JobType.SELL);
+		jobWorker.addJob(job);
 	}
 	
 	public void defineLimitSell(String isinNo, double limit) {
