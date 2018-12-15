@@ -1,7 +1,7 @@
 
 public class Account {
 	// class attributes
-	private static Account account; // singleton
+	private static Account account;
 	private static int trxNumber = 0;
 
 	// attributes
@@ -14,7 +14,7 @@ public class Account {
 		this.accountNumber = trxNumber;
 		trxNumber = trxNumber + 1;
 		this.accountBalance = 0.0;
-		this.custodyAccount = CustodyAccount.getCustodyAccount(this); // TODO: SINGLETON
+		this.custodyAccount = CustodyAccount.getCustodyAccount(this);
 	}
 
 	// methods
@@ -27,7 +27,7 @@ public class Account {
 
 	public double disburse(double amount) /* throws AccountException */ {
 		if (accountBalance < amount) {
-			/* throw new AccountException ("Betrag ist grösser als Saldo"); */
+			/* TODO: throw new AccountException ("Betrag ist grösser als Saldo"); */
 		} else {
 			accountBalance = accountBalance - amount;
 
