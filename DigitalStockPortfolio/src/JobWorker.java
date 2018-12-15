@@ -10,6 +10,9 @@ public class JobWorker {
 	
 	// construct
 	private JobWorker(StockExchange stockExchange) {
+		// TODO: make this.runJobs() run periodically!
+		//		- https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html
+		//		- https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html
 		this.jobs = new ArrayList<Job>();
 		this.stockExchange = stockExchange;
 	}
