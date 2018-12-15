@@ -37,20 +37,24 @@ public class CustodyAccount {
 	}
 	
 	public void buyShare(String isinNo) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.BUY);
+		this.jobWorker.addJob(job);
 	}
 	
 	public void sellShare(String isinNo) {
 		Job job = new Job(isinNo, JobType.SELL);
-		jobWorker.addJob(job);
+		this.jobWorker.addJob(job);
 	}
 	
 	public void defineLimitSell(String isinNo, double limit) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.SELL, limit);
+		this.jobWorker.addJob(job);
+
 	}
 	
 	public void defineLimitBuy(String isinNo, double limit) {
-		// TODO: implement
+		Job job = new Job(isinNo, JobType.BUY, limit);
+		this.jobWorker.addJob(job);
 	}
 	
 	public double getMarketPrice(String isinNo) {
