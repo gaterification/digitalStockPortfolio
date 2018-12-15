@@ -31,7 +31,8 @@ public class CustodyAccount {
 	}
 		
 	public double calculateWinOrLoss() {
-		// TODO: implement
+		// Arraylist mit vorhandenen Aktien aufrufen und Kaufwert zwischenspeichern, aktienkurs von vorhandenen aktien abrufen, 
+		// aktienkus aktuell und kaufprais verlgeichen, Neuer Wert - alter Wert = WinOrLoss
 		return 0.0;
 	}
 	
@@ -40,7 +41,7 @@ public class CustodyAccount {
 	}
 	
 	public void sellShare(String isinNo) {
-		// TODO: implement
+		// TODO: implement 
 	}
 	
 	public void defineLimitSell(String isinNo, double limit) {
