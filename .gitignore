@@ -1,5 +1,6 @@
 /bin/
 **/DigitalStockPortfolio/target/
 **/DigitalStockPortfolio/bin/
+**/DigitalStockPortfolio/.settings/
 **/.recommenders/
 /.metadata/*
