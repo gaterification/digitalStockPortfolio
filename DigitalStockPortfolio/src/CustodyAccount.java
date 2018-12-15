@@ -34,9 +34,9 @@ public class CustodyAccount {
 		// variabel für den End winOrLoss, wird beim durchschlaufen der arraylist
 		// angepasst
 
-		if (this.shares.size() > 0) {
+		double winOrLoss = 0.0;
 
-			double winOrLoss = 0.0;
+		if (this.shares.size() > 0) {
 
 			// schlaufe um die ganze arraylist durchzugehen
 			for (Share currentShare : this.shares) {
@@ -54,11 +54,11 @@ public class CustodyAccount {
 				winOrLoss = winOrLoss + calculate;
 			}
 
-			// WinOrLoss
-			return 0.0;
 		} else {
 			System.out.println("Keine Aktien vorhanden");
 		}
+		return winOrLoss;
+
 	}
 
 	public void buyShare(String isinNo) {
