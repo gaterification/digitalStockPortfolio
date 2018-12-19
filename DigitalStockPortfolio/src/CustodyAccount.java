@@ -11,6 +11,7 @@ public class CustodyAccount {
 	private Account account;
 	private JobWorker jobWorker;
 	private StockExchange stockExchange;
+	private double currentValue;
 	
 	// construct
 	private CustodyAccount(Account account, StockExchange stockExchange) {
@@ -60,7 +61,15 @@ public class CustodyAccount {
 		this.shares.add(share);
 	}
 	
-	// getters
+	// setters/getters
+	public void setCurrentValue(double value) {
+		this.currentValue = value;
+	}
+	
+	public double getCurrentValue() {
+		return this.currentValue;
+	}
+	
 	public int getCustodyAccountNumber() {
 		return this.custodyAccountNumber;
 	}
