@@ -19,7 +19,7 @@ public class CustodyAccount {
 		this.shares = new ArrayList<Share>();
 		this.account = account;
 		this.stockExchange = new Nasdaq();
-		this.jobWorker = JobWorker.getJobWorker(this.stockExchange); // TODO: singleton
+		this.jobWorker = JobWorker.getJobWorker(this.stockExchange, this);
 	}
 	
 	// methods
@@ -54,6 +54,10 @@ public class CustodyAccount {
 	public double getMarketPrice(String isinNo) {
 		// TODO: implement
 		return 0.0;
+	}
+	
+	public void addShare(Share share) {
+		this.shares.add(share);
 	}
 	
 	// getters

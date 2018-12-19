@@ -6,10 +6,14 @@ public class DigitalStockPortfolioTest {
 	
 	// TODO: separates package fuer Exceptions?
 	// TODO: JUnit-Tests?
+	// TODO: UI via scanner?
 	public static void main(String[] args) {
 		DigitalStockPortfolioTest tester = new DigitalStockPortfolioTest();
+		
+		// start tests
 		tester.testAccount();
-		tester.testCustodyAccount();
+		tester.testCustodyAccount();		
+		tester.testJobWorker();
 	}
 	
 	// construct
@@ -34,7 +38,7 @@ public class DigitalStockPortfolioTest {
 	
 	// TODO: nathan
 	private void testJobWorker() {
-		
+		System.out.println("Test started");
 	}
 	
 	// TODO: michel
