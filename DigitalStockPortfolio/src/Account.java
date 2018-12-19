@@ -14,7 +14,6 @@ public class Account {
 		this.accountNumber = trxNumber;
 		trxNumber = trxNumber + 1;
 		this.accountBalance = 0.0;
-		this.custodyAccount = CustodyAccount.getCustodyAccount(this);
 	}
 
 	// methods
@@ -23,6 +22,10 @@ public class Account {
 			account = new Account();
 		}
 		return account;
+	}
+	
+	public void addCustodyAccount(StockExchange stockExchange) {
+		this.custodyAccount = CustodyAccount.getCustodyAccount(this, stockExchange);
 	}
 
 	public double disburse(double amount) /* throws AccountException */ {

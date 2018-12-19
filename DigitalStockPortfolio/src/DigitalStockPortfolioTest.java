@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class DigitalStockPortfolioTest {
 	private Account account;
 	private CustodyAccount custodyAccount;
+	private StockExchange stockExchange; 
 	
 	// TODO: separates package fuer Exceptions?
 	// TODO: JUnit-Tests?
@@ -19,7 +20,8 @@ public class DigitalStockPortfolioTest {
 	// construct
 	public DigitalStockPortfolioTest() {
 		this.account = Account.getAccount();
-		this.custodyAccount = CustodyAccount.getCustodyAccount(this.account);
+		this.stockExchange = new Nasdaq();
+		this.custodyAccount = CustodyAccount.getCustodyAccount(this.account, this.stockExchange);
 	}
 	
 	private void testAccount() {

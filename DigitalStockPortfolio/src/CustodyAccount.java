@@ -13,19 +13,19 @@ public class CustodyAccount {
 	private StockExchange stockExchange;
 	
 	// construct
-	private CustodyAccount(Account account) {
+	private CustodyAccount(Account account, StockExchange stockExchange) {
 		this.custodyAccountNumber = trxNumber;
 		trxNumber = trxNumber + 1;
 		this.shares = new ArrayList<Share>();
 		this.account = account;
-		this.stockExchange = new Nasdaq();
+		this.stockExchange = stockExchange;
 		this.jobWorker = JobWorker.getJobWorker(this.stockExchange, this);
 	}
 	
 	// methods
-	public static CustodyAccount getCustodyAccount(Account account) {
+	public static CustodyAccount getCustodyAccount(Account account, StockExchange stockExchange) {
 		if (custodyAccount == null) {
-			custodyAccount = new CustodyAccount(account);
+			custodyAccount = new CustodyAccount(account, stockExchange);
 		}
 		return custodyAccount;
 	}

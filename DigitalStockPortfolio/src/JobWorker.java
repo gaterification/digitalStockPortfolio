@@ -16,6 +16,7 @@ public class JobWorker {
 	private CustodyAccount custodyAccount;
 	private TimerTask periodicalRunJobs;	
 	
+	// construct
 	private JobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
 		this.jobs = new ArrayList<Job>();
 		this.stockExchange = stockExchange;
