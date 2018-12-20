@@ -1,4 +1,3 @@
-
 public class Account {
 	// class attributes
 	private static Account account;
