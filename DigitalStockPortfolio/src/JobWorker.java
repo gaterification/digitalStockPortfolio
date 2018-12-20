@@ -66,14 +66,14 @@ public class JobWorker {
 						if (currentMarketPrice >= currentLimit) { // limit sell
 							this.custodyAccount.getShares();
 							custodyAccount.sellShare(job.getIsinNo());
-							this.custodyAccount.removeShare(share);
+							//this.custodyAccount.removeShare(share);
 							this.removeJob(job.getId());
 						}
 					}else {
 						custodyAccount.sellShare(job.getIsinNo());
 								this.custodyAccount.getAccount().deposit(currentMarketPrice);
 						this.removeJob(job.getId());
-						this.custodyAccount.removeShare(share);
+						//this.custodyAccount.removeShare(share);
 						}
 				} else {
 					// share does not exist
