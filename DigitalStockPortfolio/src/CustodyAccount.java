@@ -11,27 +11,28 @@ public class CustodyAccount {
 	private Account account;
 	private JobWorker jobWorker;
 	private StockExchange stockExchange;
-
+	private double currentValue;
+	
 	// construct
-	private CustodyAccount(Account account) {
+	private CustodyAccount(Account account, StockExchange stockExchange) {
 		this.custodyAccountNumber = trxNumber;
 		trxNumber = trxNumber + 1;
 		this.shares = new ArrayList<Share>();
 		this.account = account;
-		this.stockExchange = new Nasdaq();
-		this.jobWorker = JobWorker.getJobWorker(this.stockExchange, this); // TODO: singleton
+		this.stockExchange = stockExchange;
+		this.jobWorker = JobWorker.getJobWorker(this.stockExchange, this);
 	}
 
 	// methods
-	public static CustodyAccount getCustodyAccount(Account account) {
+	public static CustodyAccount getCustodyAccount(Account account, StockExchange stockExchange) {
 		if (custodyAccount == null) {
-			custodyAccount = new CustodyAccount(account);
+			custodyAccount = new CustodyAccount(account, stockExchange);
 		}
 		return custodyAccount;
 	}
 
 	public double calculateWinOrLoss() {
-		// variabel f√ºr den End winOrLoss, wird beim durchschlaufen der arraylist
+		// variabel f√uer den End winOrLoss, wird beim durchschlaufen der arraylist
 		// angepasst
 
 		double winOrLoss = 0.0;
@@ -89,8 +90,20 @@ public class CustodyAccount {
 		// TODO: implement
 		return 0.0;
 	}
-
-	// getters
+	
+	public void addShare(Share share) {
+		this.shares.add(share);
+	}
+	
+	// setters/getters
+	public void setCurrentValue(double value) {
+		this.currentValue = value;
+	}
+	
+	public double getCurrentValue() {
+		return this.currentValue;
+	}
+	
 	public int getCustodyAccountNumber() {
 		return this.custodyAccountNumber;
 	}

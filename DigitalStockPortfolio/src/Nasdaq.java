@@ -7,7 +7,7 @@ public class Nasdaq extends StockExchange {
 	}*/
 
 	@Override
-	public Share buyShare(String isinNo, double amount) {
+	public Share buyShare(String isinNo, double price) {
 		// TODO Auto-generated method stub
 		return null;
 	}
