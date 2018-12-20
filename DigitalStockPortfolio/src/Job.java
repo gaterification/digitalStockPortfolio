@@ -14,6 +14,7 @@ public class Job {
 		this.id = trxNumber;
 		trxNumber = trxNumber + 1;
 		this.isinNo = isinNo;
+		this.limit = 0;
 		this.type = type;
 	}
 	

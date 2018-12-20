@@ -9,13 +9,13 @@ import java.util.concurrent.TimeUnit;
 public class JobWorker {
 	// class attributes
 	private static JobWorker jobWorker;
-	
+
 	// attributes
 	private ArrayList<Job> jobs;
 	private StockExchange stockExchange;
 	private CustodyAccount custodyAccount;
-	private TimerTask periodicalRunJobs;	
-	
+	private TimerTask periodicalRunJobs;
+
 	// construct
 	private JobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
 		this.jobs = new ArrayList<Job>();
@@ -23,7 +23,7 @@ public class JobWorker {
 		this.custodyAccount = custodyAccount;
 		this.initializePeriodicalRunJobs();
 	}
-	
+
 	// methods
 	public static JobWorker getJobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
 		if (jobWorker == null) {
@@ -31,84 +31,37 @@ public class JobWorker {
 		}
 		return jobWorker;
 	}
-	
+
 	public void removeJob(int id) {
 		this.jobs.removeIf(e -> e.getId() == id);
 	}
-	
+
 	public void addJob(Job job) {
 		this.jobs.add(job);
 	}
-	
-	public void runJobs(CustodyAccount custodyAccount) {
-		/* TODO MIRO
-		System.out.println("Run at: " + new Date());
-		for (Job job : this.jobs) {
-			if (job.getJobType() == JobType.BUY) {
-				
-			} else if (job.getJobType() == JobType.SELL) {
-				
-			}
-		}*/
-		for (Job job : this.jobs) {
-			double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
-			double currentBalance = this.custodyAccount.getAccount().getAccountBalance();
-			double currentLimit = job.getLimit();
-			
-			if (job.getJobType() == JobType.BUY) {
-				if (currentLimit > 0) {
-					if (currentMarketPrice >= currentLimit) { // limit buy
-						if (currentMarketPrice == currentBalance) {
-							Share share = stockExchange.buyShare(job.getIsinNo(),
-									this.custodyAccount.getAccount().disburse(currentMarketPrice));// buy share
-							this.custodyAccount.addShare(share);
-							this.removeJob(job.getId());
-						} else {
-							// do not buy share
-						}
-					}
-				} else if (currentBalance == currentMarketPrice) { // buy at market
-					Share share = stockExchange.buyShare(job.getIsinNo(),
-							this.custodyAccount.getAccount().disburse(currentMarketPrice));// buy share
-					this.custodyAccount.addShare(share);
-					this.removeJob(job.getId());// Job done and deleted
-				} else {
-					// do not Buy share
-				}
-			} else if (job.getJobType() == JobType.SELL) {
-				if (doesShareExist(job.getIsinNo())) {// share exists
-					if (currentLimit > 0) {
-						if (currentMarketPrice >= currentLimit) { // limit sell
-							this.custodyAccount.getShares();
-							custodyAccount.sellShare(job.getIsinNo());
-							//this.custodyAccount.removeShare(share);
-							this.removeJob(job.getId());
-						}
-					}else {
-						custodyAccount.sellShare(job.getIsinNo());
-								this.custodyAccount.getAccount().deposit(currentMarketPrice);
-						this.removeJob(job.getId());
-						//this.custodyAccount.removeShare(share);
-						}
-				} else {
-					// share does not exist
-				}
 
+	public void runJobs() {
+		// TODO: zuerst sollen alle shares verkauft werden
+		for (Job job : this.jobs) {
+			if (job.getJobType() == JobType.BUY) {
+				this.handleJobTypeBuy(job);
+			} else {
+				this.handleJobTypeSell(job); // do not buy share
 			}
 		}
-
 	}
-	
+
+
 	public ArrayList<Job> getJobs() {
 		return this.jobs;
 	}
-	
+
 	private void initializePeriodicalRunJobs() {
 		// initialize timer
 		this.periodicalRunJobs = new TimerTask() {
 			@Override
 			public void run() {
-				runJobs(custodyAccount);
+				runJobs();
 			}
 		};
 
@@ -118,15 +71,74 @@ public class JobWorker {
 		// TODO: change from 5 seconds to 5 minutes...
 		executor.scheduleAtFixedRate(periodicalRunJobs, 0, 5000, TimeUnit.MILLISECONDS);
 	}
-	
+
 	private boolean doesShareExist(String isinNo) {
 		for (Share obj : this.custodyAccount.getShares()) {
 			if (obj.getIsinNo().equals(isinNo)) {
 				return true;
-			} else {
-				return false;
 			}
 		}
 		return false;
 	}
+
+	private void handleJobTypeBuy(Job job) {  
+		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+		double currentLimit = job.getLimit();
+		
+		if (currentLimit > 0) {
+			// job has limit
+			if (currentMarketPrice <= currentLimit) {
+				// limit is reached
+				this.buyShare(job);
+			}
+		} else {
+			// has no limit
+			this.buyShare(job);
+		}
+	}
+	
+	private void buyShare(Job job) {
+		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+		double currentBalance = this.custodyAccount.getAccount().getAccountBalance();
+
+		if (currentMarketPrice <= currentBalance) {
+			// get money from account
+			double money = this.custodyAccount.getAccount().disburse(currentMarketPrice);
+			// buy Share from StockExchange
+			Share share = stockExchange.buyShare(job.getIsinNo(), money);
+			// add Share to CustodyAccount
+			this.custodyAccount.addShare(share);
+			// remove Job from JobWorker
+			this.removeJob(job.getId());
+		}
+		
+	}
+
+	private void handleJobTypeSell(Job job) {
+		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+		double currentLimit = job.getLimit();
+		
+		if (currentLimit > 0) {
+			// job has limit
+			if (currentMarketPrice <= currentLimit) {
+				// limit is reached
+				this.sellShare(job);
+			}
+		} else {
+			// has no limit
+			this.sellShare(job);
+		}
+
+	}
+	private void sellShare(Job job) {
+		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+		if(doesShareExist(job.getIsinNo()) == true) {
+			Share share = custodyAccount.getShare(job.getIsinNo());
+			this.custodyAccount.removeShare(share);
+			double money = stockExchange.sellShare(share);
+			custodyAccount.getAccount().deposit(money);
+			this.removeJob(job.getId());
+		}
+	}
+	
 }
