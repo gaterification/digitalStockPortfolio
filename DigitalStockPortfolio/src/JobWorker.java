@@ -39,20 +39,23 @@ public class JobWorker {
 			double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
 			double currentBalance = this.custodyAccount.getAccount().getAccountBalance();
 			double currentLimit = job.getLimit();
+			
 			if (job.getJobType() == JobType.BUY) {
 				if (currentLimit > 0) {
 					if (currentMarketPrice >= currentLimit) { // limit buy
 						if (currentMarketPrice == currentBalance) {
-							stockExchange.buyShare(job.getIsinNo(),
+							Share share = stockExchange.buyShare(job.getIsinNo(),
 									this.custodyAccount.getAccount().disburse(currentMarketPrice));// buy share
+							this.custodyAccount.addShare(share);
 							this.removeJob(job.getId());
 						} else {
 							// do not buy share
 						}
 					}
 				} else if (currentBalance == currentMarketPrice) { // buy at market
-					stockExchange.buyShare(job.getIsinNo(),
+					Share share = stockExchange.buyShare(job.getIsinNo(),
 							this.custodyAccount.getAccount().disburse(currentMarketPrice));// buy share
+					this.custodyAccount.addShare(share);
 					this.removeJob(job.getId());// Job done and deleted
 				} else {
 					// do not Buy share
@@ -61,14 +64,16 @@ public class JobWorker {
 				if (doesShareExist(job.getIsinNo())) {// share exists
 					if (currentLimit > 0) {
 						if (currentMarketPrice >= currentLimit) { // limit sell
-							stockExchange.sellShare(job.getIsinNo(),
-									this.custodyAccount.getAccount().deposit(currentMarketPrice));
+							this.custodyAccount.getShares();
+							custodyAccount.sellShare(job.getIsinNo());
+							this.custodyAccount.removeShare(share);
 							this.removeJob(job.getId());
 						}
 					}else {
-						stockExchange.sellShare(job.getIsinNo(),
-								this.custodyAccount.getAccount().deposit(currentMarketPrice));
+						custodyAccount.sellShare(job.getIsinNo());
+								this.custodyAccount.getAccount().deposit(currentMarketPrice);
 						this.removeJob(job.getId());
+						this.custodyAccount.removeShare(share);
 						}
 				} else {
 					// share does not exist
