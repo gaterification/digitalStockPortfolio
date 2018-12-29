@@ -32,7 +32,7 @@ public class CustodyAccount {
 	}
 
 	public double calculateWinOrLoss() {
-		// variabel fÃuer den End winOrLoss, wird beim durchschlaufen der arraylist
+		// variabel fï¿½uer den End winOrLoss, wird beim durchschlaufen der arraylist
 		// angepasst
 
 		double winOrLoss = 0.0;
@@ -110,6 +110,20 @@ public class CustodyAccount {
 
 	public ArrayList<Share> getShares() {
 		return this.shares;
+	}
+	
+	public Share getShare(String isinNo) {
+		for (Share share : this.shares) {
+			if(share.getIsinNo()==isinNo) {
+				return share;
+			}
+		}
+		// TODO: add custom Exception
+		return null;
+	}
+	
+	public void removeShare(Share share) {
+		this.shares.removeIf(e -> e == share);
 	}
 
 	public Account getAccount() {
