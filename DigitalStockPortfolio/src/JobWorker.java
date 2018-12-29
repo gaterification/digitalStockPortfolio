@@ -41,7 +41,7 @@ public class JobWorker {
 	}
 
 	public void runJobs() {
-		// TODO: zuerst sollen alle shares verkauft werden
+		// TODO: zuerst sollen alle shares verkauft werden --> ArrayList sortieren...
 		for (Job job : this.jobs) {
 			if (job.getJobType() == JobType.BUY) {
 				this.handleJobTypeBuy(job);
@@ -50,7 +50,6 @@ public class JobWorker {
 			}
 		}
 	}
-
 
 	public ArrayList<Job> getJobs() {
 		return this.jobs;
@@ -81,64 +80,100 @@ public class JobWorker {
 		return false;
 	}
 
-	private void handleJobTypeBuy(Job job) {  
-		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
-		double currentLimit = job.getLimit();
-		
-		if (currentLimit > 0) {
-			// job has limit
-			if (currentMarketPrice <= currentLimit) {
-				// limit is reached
+	private void handleJobTypeBuy(Job job) {
+		try {
+			double currentLimit = job.getLimit();
+
+			if (currentLimit > 0) {
+				double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+
+				// job has limit
+				if (currentMarketPrice <= currentLimit) {
+					// limit is reached
+					this.buyShare(job);
+				}
+			} else {
+				// has no limit
 				this.buyShare(job);
 			}
-		} else {
-			// has no limit
-			this.buyShare(job);
+		} catch (StockExchangeException e) {
+			System.err.println(e.toString());
+			e.printStackTrace();
+		} catch (JobWorkerException e) {
+			System.err.println(e.toString());
+			e.printStackTrace();
 		}
-	}
-	
-	private void buyShare(Job job) {
-		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
-		double currentBalance = this.custodyAccount.getAccount().getAccountBalance();
 
-		if (currentMarketPrice <= currentBalance) {
-			// get money from account
-			double money = this.custodyAccount.getAccount().disburse(currentMarketPrice);
-			// buy Share from StockExchange
-			Share share = stockExchange.buyShare(job.getIsinNo(), money);
-			// add Share to CustodyAccount
-			this.custodyAccount.addShare(share);
-			// remove Job from JobWorker
-			this.removeJob(job.getId());
+	}
+
+	private void buyShare(Job job) throws JobWorkerException {
+		try {
+			double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+			double currentBalance = this.custodyAccount.getAccount().getAccountBalance();
+
+			if (currentMarketPrice <= currentBalance) {
+				// get money from account
+				double money = this.custodyAccount.getAccount().disburse(currentMarketPrice);
+				// buy Share from StockExchange
+				Share share = stockExchange.buyShare(job.getIsinNo(), money);
+				// add Share to CustodyAccount
+				this.custodyAccount.addShare(share);
+				// remove Job from JobWorker
+				this.removeJob(job.getId());
+			} else {
+				throw new JobWorkerException("Kontodeckung nicht ausreichend um die Aktie " + job.getIsinNo()
+						+ " von Job " + job.getId() + " zu kaufen.");
+			}
+		} catch (StockExchangeException e) {
+			System.err.println(e.toString());
+			e.printStackTrace();
 		}
-		
 	}
 
 	private void handleJobTypeSell(Job job) {
-		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
 		double currentLimit = job.getLimit();
-		
-		if (currentLimit > 0) {
-			// job has limit
-			if (currentMarketPrice <= currentLimit) {
-				// limit is reached
+
+		try {
+			if (currentLimit > 0) {
+				double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
+				// job has limit
+				if (currentMarketPrice <= currentLimit) {
+					// limit is reached
+					this.sellShare(job);
+				}
+			} else {
+				// has no limit
 				this.sellShare(job);
 			}
-		} else {
-			// has no limit
-			this.sellShare(job);
+		} catch (StockExchangeException e) {
+			System.err.println(e.toString());
+			e.printStackTrace();
+		} catch (JobWorkerException e) {
+			System.err.println(e.toString());
+			e.printStackTrace();
 		}
+	}
 
-	}
-	private void sellShare(Job job) {
-		double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
-		if(doesShareExist(job.getIsinNo()) == true) {
+	private void sellShare(Job job) throws JobWorkerException {
+		if (doesShareExist(job.getIsinNo()) == true) {
 			Share share = custodyAccount.getShare(job.getIsinNo());
-			this.custodyAccount.removeShare(share);
-			double money = stockExchange.sellShare(share);
-			custodyAccount.getAccount().deposit(money);
+			try {
+				double money = stockExchange.sellShare(share);
+				// remove share if it could be sold
+				this.custodyAccount.removeShare(share);
+				// deposit money to account
+				custodyAccount.getAccount().deposit(money);
+			} catch (StockExchangeException e) {
+				System.err.println(e.toString());
+				e.printStackTrace();
+			}
 			this.removeJob(job.getId());
+		} else {
+			// no matching share found - remove job and throw exception
+			this.removeJob(job.getId());
+			throw new JobWorkerException("Keine passende Aktie mit der isinNo " + job.getIsinNo() + " für den Job "
+					+ job.getId() + " gefunden. Der Job wurde entfernt.");
 		}
 	}
-	
+
 }

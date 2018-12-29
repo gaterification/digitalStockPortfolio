@@ -31,10 +31,7 @@ public class CustodyAccount {
 		return custodyAccount;
 	}
 
-	public double calculateWinOrLoss() {
-		// variabel f�uer den End winOrLoss, wird beim durchschlaufen der arraylist
-		// angepasst
-
+	public double calculateWinOrLoss() throws CustodyAccountException {
 		double winOrLoss = 0.0;
 
 		if (this.shares.size() > 0) {
@@ -47,16 +44,20 @@ public class CustodyAccount {
 				// Variabel um den alten Preis des aktuellen Shares auszulesn und
 				// zwischenspeichern
 				double oldPrice = currentShare.getCostPrice();
-				// Variabel um den aktuellen Preis auszulesn und zwischenspeichern
-				double actuallPrice = this.stockExchange.getMarketPrice(shareIsinNo);
-				// Variabel um den aktuellen und den alten Preis zu vergleichen und ausrechnen
-				double calculate = actuallPrice - oldPrice;
+				try {
+					// Variabel um den aktuellen Preis auszulesn und zwischenspeichern
+					double actuallPrice = this.stockExchange.getMarketPrice(shareIsinNo);
+					// Variabel um den aktuellen und den alten Preis zu vergleichen und ausrechnen
+					double calculate = actuallPrice - oldPrice;
 
-				winOrLoss = winOrLoss + calculate;
+					winOrLoss = winOrLoss + calculate;
+				} catch (StockExchangeException e) {
+					System.err.println(e.toString());
+					e.printStackTrace();
+				}
 			}
-
 		} else {
-			System.out.println("Keine Aktien vorhanden");
+			throw new CustodyAccountException("Keine Aktien um winOrLoss zu kalkulieren.");
 		}
 		return winOrLoss;
 
