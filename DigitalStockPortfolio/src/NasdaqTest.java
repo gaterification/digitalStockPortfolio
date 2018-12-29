@@ -15,11 +15,11 @@ public class NasdaqTest {
 			try {
 				s = n.buyShare("TSLA", money);
 				System.out.println("Neuer Share: Name: " + s.getName() + ", isinNo: " + s.getIsinNo() + ", Price: " + s.getCostPrice());
-			} catch (IOException e) {
+			} catch (StockExchangeException e) {
 				e.printStackTrace();
 			}
 
-		} catch (IOException e) {
+		} catch (StockExchangeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
@@ -32,7 +32,7 @@ public class NasdaqTest {
 			System.out.println("Geld zurück: " + money);
 			
 
-		} catch (IOException e) {
+		} catch (StockExchangeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			

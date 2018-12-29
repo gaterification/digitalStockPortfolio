@@ -6,7 +6,7 @@ public abstract class StockExchange {
 	// construct : establish connection
 	
 	// methods
-	public abstract Share buyShare(String isinNo, double price) throws IOException;
-	public abstract double sellShare(Share share) throws IOException;
-	public abstract double getMarketPrice(String isinNo) throws IOException;
+	public abstract Share buyShare(String isinNo, double price) throws StockExchangeException;
+	public abstract double sellShare(Share share) throws StockExchangeException;
+	public abstract double getMarketPrice(String isinNo) throws StockExchangeException;
 }
