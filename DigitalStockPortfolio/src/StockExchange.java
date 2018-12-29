@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 public abstract class StockExchange {
 	// attributes
@@ -5,7 +6,7 @@ public abstract class StockExchange {
 	// construct : establish connection
 	
 	// methods
-	public abstract Share buyShare(String isinNo, double price);
-	public abstract double sellShare(Share share);
-	public abstract double getMarketPrice(String isinNo);
+	public abstract Share buyShare(String isinNo, double price) throws IOException;
+	public abstract double sellShare(Share share) throws IOException;
+	public abstract double getMarketPrice(String isinNo) throws IOException;
 }
