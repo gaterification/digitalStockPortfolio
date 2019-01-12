@@ -15,19 +15,17 @@ public class CustodyAccount {
 	
 	// construct
 	public CustodyAccount(Account account, StockExchange stockExchange) {
-		this.custodyAccountNumber = trxNumber;
-		trxNumber = trxNumber + 1;
+		this.trxNumber = this.trxNumber + 1;
+		this.custodyAccountNumber = this.trxNumber;
 		this.shares = new ArrayList<Share>();
 		this.account = account;
 		this.stockExchange = stockExchange;
 		this.jobWorker = new JobWorker(this.stockExchange, this);
 	}
 
-	public double calculateWinOrLoss() throws CustodyAccountException {
+	public double calculateWinOrLoss() throws CustodyAccountException, StockExchangeException {
 		double winOrLoss = 0.0;
-
 		if (this.shares.size() > 0) {
-
 			// schlaufe um die ganze arraylist durchzugehen
 			for (Share currentShare : this.shares) {
 				// Variabel um die IsinNo des aktuellen Shares auszulesen und zwischenspeichern.
@@ -38,21 +36,19 @@ public class CustodyAccount {
 				double oldPrice = currentShare.getCostPrice();
 				try {
 					// Variabel um den aktuellen Preis auszulesn und zwischenspeichern
-					double actuallPrice = this.stockExchange.getMarketPrice(shareIsinNo);
+					double actualPrice = this.stockExchange.getMarketPrice(shareIsinNo);
 					// Variabel um den aktuellen und den alten Preis zu vergleichen und ausrechnen
-					double calculate = actuallPrice - oldPrice;
+					double calculate = actualPrice - oldPrice;
 
 					winOrLoss = winOrLoss + calculate;
 				} catch (StockExchangeException e) {
-					System.err.println(e.toString());
-					e.printStackTrace();
+					throw e;
 				}
 			}
 		} else {
-			throw new CustodyAccountException("Keine Aktien um winOrLoss zu kalkulieren.");
+			throw new CustodyAccountException("Keine Aktien vorhanden um winOrLoss zu kalkulieren.");
 		}
 		return winOrLoss;
-
 	}
 
 	public void buyShare(String isinNo) {
@@ -76,16 +72,28 @@ public class CustodyAccount {
 		this.jobWorker.addJob(job);
 	}
 
-	public double getMarketPrice(String isinNo) {
-		// TODO: noetig? --> Kann mit this.stockExchange.getMarketPrice() gemacht werden
-		// --> noetig falls Abfrage von MarketPrice aus main gebraucht wird, dann
-		// braucht die main kein Zugriff auf den StockExchange
-		// TODO: implement
-		return 0.0;
+	public double getMarketPrice(String isinNo) throws StockExchangeException {
+		try {
+			return this.stockExchange.getMarketPrice(isinNo);
+		} catch (StockExchangeException e) {
+			throw e;
+		}
 	}
 	
 	public void addShare(Share share) {
 		this.shares.add(share);
+	}
+	
+	public ArrayList<Job> getJobs() {
+		return this.jobWorker.getJobs();
+	}
+	
+	public void runJobs() throws StockExchangeException, JobWorkerException {
+		try {
+			this.jobWorker.runJobs();
+		} catch (StockExchangeException | JobWorkerException e) {
+			throw e;
+		}
 	}
 	
 	// setters/getters

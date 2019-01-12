@@ -1,8 +1,5 @@
-
 public class JobWorkerException extends Exception {
 	public JobWorkerException(String msg) {
-		super();
+		super(msg);
 	}
-	
-	// TODO: separate Methode um die Angaben über den betreffenden Job auszugeben?
 }

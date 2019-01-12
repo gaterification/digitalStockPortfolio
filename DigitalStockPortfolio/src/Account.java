@@ -10,8 +10,8 @@ public class Account {
 
 	// construct
 	private Account() {
+		this.trxNumber = this.trxNumber + 1;
 		this.accountNumber = trxNumber;
-		trxNumber = trxNumber + 1;
 		this.accountBalance = 0.0;
 	}
 
@@ -27,9 +27,9 @@ public class Account {
 		this.custodyAccount = new CustodyAccount(this, stockExchange);
 	}
 
-	public double disburse(double amount) /* throws AccountException */ {
+	public double disburse(double amount) throws AccountException {
 		if (accountBalance < amount) {
-			/* TODO: throw new AccountException ("Betrag ist grösser als Saldo"); */
+			throw new AccountException("Zu wenig Geld um " + amount + " abzuheben.");
 		} else {
 			accountBalance = accountBalance - amount;
 
