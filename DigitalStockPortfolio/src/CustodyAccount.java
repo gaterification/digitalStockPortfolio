@@ -14,21 +14,13 @@ public class CustodyAccount {
 	private double currentValue;
 	
 	// construct
-	private CustodyAccount(Account account, StockExchange stockExchange) {
+	public CustodyAccount(Account account, StockExchange stockExchange) {
 		this.custodyAccountNumber = trxNumber;
 		trxNumber = trxNumber + 1;
 		this.shares = new ArrayList<Share>();
 		this.account = account;
 		this.stockExchange = stockExchange;
-		this.jobWorker = JobWorker.getJobWorker(this.stockExchange, this);
-	}
-
-	// methods
-	public static CustodyAccount getCustodyAccount(Account account, StockExchange stockExchange) {
-		if (custodyAccount == null) {
-			custodyAccount = new CustodyAccount(account, stockExchange);
-		}
-		return custodyAccount;
+		this.jobWorker = new JobWorker(this.stockExchange, this);
 	}
 
 	public double calculateWinOrLoss() throws CustodyAccountException {

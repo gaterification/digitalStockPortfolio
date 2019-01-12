@@ -17,19 +17,11 @@ public class JobWorker {
 	private TimerTask periodicalRunJobs;
 
 	// construct
-	private JobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
+	public JobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
 		this.jobs = new ArrayList<Job>();
 		this.stockExchange = stockExchange;
 		this.custodyAccount = custodyAccount;
 		this.initializePeriodicalRunJobs();
-	}
-
-	// methods
-	public static JobWorker getJobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
-		if (jobWorker == null) {
-			jobWorker = new JobWorker(stockExchange, custodyAccount);
-		}
-		return jobWorker;
 	}
 
 	public void removeJob(int id) {

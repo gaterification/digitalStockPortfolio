@@ -21,7 +21,7 @@ public class DigitalStockPortfolioTest {
 	public DigitalStockPortfolioTest() {
 		this.account = Account.getAccount();
 		this.stockExchange = new Nasdaq();
-		this.custodyAccount = CustodyAccount.getCustodyAccount(this.account, this.stockExchange);
+		this.custodyAccount = new CustodyAccount(this.account, this.stockExchange);
 	}
 	
 	private void testAccount() {

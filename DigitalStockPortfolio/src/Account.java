@@ -24,7 +24,7 @@ public class Account {
 	}
 	
 	public void addCustodyAccount(StockExchange stockExchange) {
-		this.custodyAccount = CustodyAccount.getCustodyAccount(this, stockExchange);
+		this.custodyAccount = new CustodyAccount(this, stockExchange);
 	}
 
 	public double disburse(double amount) /* throws AccountException */ {
