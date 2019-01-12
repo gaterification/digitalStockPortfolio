@@ -1,6 +1,5 @@
 import java.util.ArrayList;
-// TODO: remove, should not be used, only for testing
-import java.util.Date;
+import java.util.Comparator;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,13 +31,37 @@ public class JobWorker {
 		this.jobs.add(job);
 	}
 
-	public void runJobs() {
-		// TODO: zuerst sollen alle shares verkauft werden --> ArrayList sortieren...
-		for (Job job : this.jobs) {
-			if (job.getJobType() == JobType.BUY) {
-				this.handleJobTypeBuy(job);
-			} else {
-				this.handleJobTypeSell(job); // do not buy share
+	public void runJobs() throws StockExchangeException, JobWorkerException {
+		System.out.println("Log: Offene Jobs werden abgearbeitet.");
+		if (this.jobs.size() == 0) {
+			System.out.println("Log: JobWorker-Info: Es gibt keine Jobs abzuarbeiten.");
+		} else {
+			// sort job: first all job with type SELL should be executed so there is more money to buy jobs
+			this.jobs.sort(new Comparator<Job>() {
+				@Override
+				public int compare(Job j1, Job j2) {
+					if (j1.getJobType() == j2.getJobType()) {
+						return 0;
+					} else if (j1.getJobType() == JobType.BUY) {
+						return 1;
+					} else {
+						return -1;
+					}
+				}
+			});
+
+			// copy this.jobs because jobs are removed from this.jobs during loop
+			ArrayList<Job> jobsForIteration = new ArrayList<Job>(this.jobs); 
+			try {
+				for (Job job : jobsForIteration) {
+					if (job.getJobType() == JobType.BUY) {
+						this.handleJobTypeBuy(job);
+					} else {
+						this.handleJobTypeSell(job);				
+					}
+				}
+			} catch (StockExchangeException | JobWorkerException e) {
+				throw e;
 			}
 		}
 	}
@@ -52,15 +75,18 @@ public class JobWorker {
 		this.periodicalRunJobs = new TimerTask() {
 			@Override
 			public void run() {
-				runJobs();
+				try {
+					runJobs();
+				} catch (StockExchangeException | JobWorkerException e) {
+					e.printStackTrace(); // wait until next run
+				}
 			}
 		};
 
 		// add executor for separate thread
 		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 		// run jobs all 5 minutes
-		// TODO: change from 5 seconds to 5 minutes...
-		executor.scheduleAtFixedRate(periodicalRunJobs, 0, 5000, TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(periodicalRunJobs, 0, 300000, TimeUnit.MILLISECONDS);
 	}
 
 	private boolean doesShareExist(String isinNo) {
@@ -72,7 +98,7 @@ public class JobWorker {
 		return false;
 	}
 
-	private void handleJobTypeBuy(Job job) {
+	private void handleJobTypeBuy(Job job) throws StockExchangeException, JobWorkerException {
 		try {
 			double currentLimit = job.getLimit();
 
@@ -89,40 +115,35 @@ public class JobWorker {
 				this.buyShare(job);
 			}
 		} catch (StockExchangeException e) {
-			System.err.println(e.toString());
-			e.printStackTrace();
+			throw e;
 		} catch (JobWorkerException e) {
-			System.err.println(e.toString());
-			e.printStackTrace();
+			throw e;
 		}
 
 	}
 
-	private void buyShare(Job job) throws JobWorkerException {
+	private void buyShare(Job job) throws JobWorkerException, StockExchangeException {
 		try {
 			double currentMarketPrice = stockExchange.getMarketPrice(job.getIsinNo());
 			double currentBalance = this.custodyAccount.getAccount().getAccountBalance();
 
 			if (currentMarketPrice <= currentBalance) {
-				// get money from account
-				double money = this.custodyAccount.getAccount().disburse(currentMarketPrice);
 				// buy Share from StockExchange
-				Share share = stockExchange.buyShare(job.getIsinNo(), money);
+				Share share = stockExchange.buyShare(job.getIsinNo(), this.custodyAccount.getAccount());
 				// add Share to CustodyAccount
 				this.custodyAccount.addShare(share);
+				System.out.println("Log: Aktie " + job.getIsinNo() + " gekauft.");
 				// remove Job from JobWorker
 				this.removeJob(job.getId());
 			} else {
-				throw new JobWorkerException("Kontodeckung nicht ausreichend um die Aktie " + job.getIsinNo()
-						+ " von Job " + job.getId() + " zu kaufen.");
+				throw new JobWorkerException("Kontodeckung nicht ausreichend um die Aktie " + job.getIsinNo() + " von Job " + job.getId() + " zu kaufen.");
 			}
 		} catch (StockExchangeException e) {
-			System.err.println(e.toString());
-			e.printStackTrace();
+			throw e;
 		}
 	}
 
-	private void handleJobTypeSell(Job job) {
+	private void handleJobTypeSell(Job job) throws StockExchangeException, JobWorkerException {
 		double currentLimit = job.getLimit();
 
 		try {
@@ -138,15 +159,13 @@ public class JobWorker {
 				this.sellShare(job);
 			}
 		} catch (StockExchangeException e) {
-			System.err.println(e.toString());
-			e.printStackTrace();
+			throw e;
 		} catch (JobWorkerException e) {
-			System.err.println(e.toString());
-			e.printStackTrace();
+			throw e;
 		}
 	}
 
-	private void sellShare(Job job) throws JobWorkerException {
+	private void sellShare(Job job) throws JobWorkerException, StockExchangeException {
 		if (doesShareExist(job.getIsinNo()) == true) {
 			Share share = custodyAccount.getShare(job.getIsinNo());
 			try {
@@ -154,17 +173,16 @@ public class JobWorker {
 				// remove share if it could be sold
 				this.custodyAccount.removeShare(share);
 				// deposit money to account
-				custodyAccount.getAccount().deposit(money);
+				this.custodyAccount.getAccount().deposit(money);
+				System.out.println("Log: Aktie " + job.getIsinNo() + " verkauft.");
 			} catch (StockExchangeException e) {
-				System.err.println(e.toString());
-				e.printStackTrace();
+				throw e;
 			}
 			this.removeJob(job.getId());
 		} else {
 			// no matching share found - remove job and throw exception
 			this.removeJob(job.getId());
-			throw new JobWorkerException("Keine passende Aktie mit der isinNo " + job.getIsinNo() + " für den Job "
-					+ job.getId() + " gefunden. Der Job wurde entfernt.");
+			throw new JobWorkerException("Keine passende Aktie mit der isinNo '" + job.getIsinNo() + "' für den Job nr " + job.getId() + " gefunden. Der Job wurde entfernt.");
 		}
 	}
 
