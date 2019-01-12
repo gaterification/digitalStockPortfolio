@@ -11,16 +11,16 @@ public class Job {
 	
 	// construct
 	public Job (String isinNo, JobType type) {
+		this.trxNumber = this.trxNumber + 1;
 		this.id = trxNumber;
-		trxNumber = trxNumber + 1;
 		this.isinNo = isinNo;
 		this.limit = 0;
 		this.type = type;
 	}
 	
 	public Job(String isinNo, JobType type, double limit) {
+		this.trxNumber = this.trxNumber + 1;
 		this.id = trxNumber;
-		trxNumber = trxNumber + 1;
 		this.isinNo = isinNo;
 		this.type = type;
 		this.limit = limit;
