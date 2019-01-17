@@ -1,3 +1,4 @@
+package DigitalStockPortfolio;
 
 public class Job {
 	// class variables
@@ -10,7 +11,7 @@ public class Job {
 	private JobType type;
 	
 	// construct
-	public Job (String isinNo, JobType type) {
+	protected Job (String isinNo, JobType type) {
 		this.trxNumber = this.trxNumber + 1;
 		this.id = trxNumber;
 		this.isinNo = isinNo;
@@ -18,7 +19,7 @@ public class Job {
 		this.type = type;
 	}
 	
-	public Job(String isinNo, JobType type, double limit) {
+	protected Job(String isinNo, JobType type, double limit) {
 		this.trxNumber = this.trxNumber + 1;
 		this.id = trxNumber;
 		this.isinNo = isinNo;
@@ -27,19 +28,19 @@ public class Job {
 	}
 	
 	// methods
-	public String getIsinNo() {
+	protected String getIsinNo() {
 		return this.isinNo;
 	}
 	
-	public int getId() {
+	protected int getId() {
 		return this.id;
 	}
 	
-	public double getLimit() {
+	protected double getLimit() {
 		return this.limit;
 	}
 	
-	public JobType getJobType() {
+	protected JobType getJobType() {
 		return this.type;
 	}
 }

@@ -1,3 +1,4 @@
+package DigitalStockPortfolio;
 public class Account {
 	// class attributes
 	private static Account account;
@@ -10,7 +11,7 @@ public class Account {
 
 	// construct
 	private Account() {
-		this.trxNumber = this.trxNumber + 1;
+		Account.trxNumber = Account.trxNumber + 1;
 		this.accountNumber = trxNumber;
 		this.accountBalance = 0.0;
 	}
@@ -32,14 +33,12 @@ public class Account {
 			throw new AccountException("Zu wenig Geld um " + amount + " abzuheben.");
 		} else {
 			accountBalance = accountBalance - amount;
-
 		}
 		return accountBalance;
 	}
 
 	public void deposit(double amount) {
 		accountBalance = accountBalance + amount;
-
 	}
 
 	public double getAccountBalance() {

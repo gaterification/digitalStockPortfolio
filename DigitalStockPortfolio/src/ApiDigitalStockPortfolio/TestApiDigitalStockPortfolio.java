@@ -1,4 +1,9 @@
-import java.util.ArrayList;
+package ApiDigitalStockPortfolio;
+
+//import java.util.ArrayList;
+// TODO: both not needed!!
+//import DigitalStockPortfolio.Job;
+//import DigitalStockPortfolio.Share;
 
 public class TestApiDigitalStockPortfolio {
 	private ApiDigitalStockPortfolio api;
@@ -20,6 +25,7 @@ public class TestApiDigitalStockPortfolio {
 //		System.out.println("Aktuelle Aktien, sollte ein leeres Array sein: " + api.getShares());
 //		System.out.println("Aktuelle Jobs, sollte ein leeres Array sein: " + apiTest.printJobs(api.getJobs()));
 //		api.sellShare("TSLA");
+		System.out.println(api.getAccountBalance());
 		api.buyShare("TSLA");
 		api.buyShare("PG");
 		api.buyShare("UNP");
@@ -30,6 +36,9 @@ public class TestApiDigitalStockPortfolio {
 		api.buyShare("HAL");
 		api.buyShare("COF");
 		api.buyShare("FDEF");
+		System.out.println(api.printJobs());
+		//api.removeJobs(1);
+		//api.removeJobs(2);
 		System.out.println(api.getMarketPrice("TSLA") + "|" + 
 		api.getMarketPrice("PG") + "|" + 
 				api.getMarketPrice("UNP") + "|" + 
@@ -40,15 +49,16 @@ public class TestApiDigitalStockPortfolio {
 				api.getMarketPrice("HAL") + "|" +
 				api.getMarketPrice("COF") + "|" +
 		api.getMarketPrice("TSLA"));
-		apiTest.printJobs(api.getJobs());
+//		apiTest.printJobs(api.getJobs());
 		api.runJobs();
-		for (int i = 0; i < 100; i++) {
+		//for (int i = 0; i < 100; i++) {
 			try {
-				Thread.sleep(6000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				System.err.println(e.getMessage());
 			}
-		
+			System.out.println(api.getAccountBalance());
+		System.out.println(api.printShares());
 			System.out.println(api.calculateWinOrLoss());
 			System.out.println(api.getMarketPrice("TSLA") + "|" + 
 					api.getMarketPrice("PG") + "|" + 
@@ -60,14 +70,14 @@ public class TestApiDigitalStockPortfolio {
 							api.getMarketPrice("HAL") + "|" +
 							api.getMarketPrice("COF") + "|" +
 					api.getMarketPrice("TSLA"));
-		}
+		//}
 		System.out.println("10 Sekunden warten");
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			System.err.println(e.getMessage());
 		}
-		apiTest.printShares(api.getShares());
+//		apiTest.printShares(api.getShares());
 		System.out.println(api.getAccountBalance());
 		api.sellShare("AAPL");
 		api.sellShare("AAPL");
@@ -77,8 +87,9 @@ public class TestApiDigitalStockPortfolio {
 		api.buyShare("TSLA");
 		api.sellShare("AAPL");
 		api.sellShare("AAPL");
-		apiTest.printJobs(api.getJobs());
-		api.runJobs();
+		
+		//apiTest.printJobs(api.getJobs());
+		//api.runJobs();
 		System.out.println("10 Sekunden warten");
 		try {
 			Thread.sleep(10000);
@@ -86,7 +97,7 @@ public class TestApiDigitalStockPortfolio {
 			System.err.println(e.getMessage());
 		}
 		System.out.println(api.getAccountBalance());
-		apiTest.printShares(api.getShares());
+//		apiTest.printShares(api.getShares());
 /*		api.buyShare("TSLA");
 		api.buyShare("TSLA");
 		api.runJobs();
@@ -110,8 +121,8 @@ public class TestApiDigitalStockPortfolio {
 	public ApiDigitalStockPortfolio getApi() {
 		return this.api;
 	}
-	
-	private void printJobs(ArrayList<Job> jobs) {
+}
+/*	private void printJobs(ArrayList<Job> jobs) {
 		String jobString = "";
 		ArrayList<String> jobsAsString = new ArrayList<String>();
 		if (jobs.size() > 0) {
@@ -127,9 +138,9 @@ public class TestApiDigitalStockPortfolio {
 			jobString =  "Keine Jobs vorhanden die ausgegeben werden können.";
 		}
 		System.out.println(jobString);
-	}
+	}*/
 	
-	private void printShares(ArrayList<Share> shares) {
+/*	private void printShares(ArrayList<Share> shares) {
 		String shareString = "";
 		ArrayList<String> sharesAsString = new ArrayList<String>();
 		if (shares.size() > 0) {
@@ -142,4 +153,4 @@ public class TestApiDigitalStockPortfolio {
 		}
 		System.out.println(shareString);
 	}
-}
+}*/
