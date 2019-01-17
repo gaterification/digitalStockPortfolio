@@ -1,15 +1,15 @@
+package DigitalStockPortfolio;
+
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
-public class Nasdaq extends StockExchange {
+public class Nasdaq implements StockExchange {
 	@Override
 	public Share buyShare(String isinNo, Account account) throws StockExchangeException {
 		try {
 			double currentMarketPrice = this.getMarketPrice(isinNo);
-			double currentAccountBalance = account.getAccountBalance();
 			try {
 				account.disburse(currentMarketPrice);
 				// enough money

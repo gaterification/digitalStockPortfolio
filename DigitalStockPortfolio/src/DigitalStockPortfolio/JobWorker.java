@@ -1,3 +1,5 @@
+package DigitalStockPortfolio;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TimerTask;
@@ -16,22 +18,22 @@ public class JobWorker {
 	private TimerTask periodicalRunJobs;
 
 	// construct
-	public JobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
+	protected JobWorker(StockExchange stockExchange, CustodyAccount custodyAccount) {
 		this.jobs = new ArrayList<Job>();
 		this.stockExchange = stockExchange;
 		this.custodyAccount = custodyAccount;
 		this.initializePeriodicalRunJobs();
 	}
 
-	public void removeJob(int id) {
+	protected void removeJob(int id) {
 		this.jobs.removeIf(e -> e.getId() == id);
 	}
 
-	public void addJob(Job job) {
+	protected void addJob(Job job) {
 		this.jobs.add(job);
 	}
 
-	public void runJobs() throws StockExchangeException, JobWorkerException {
+	protected void runJobs() throws StockExchangeException, JobWorkerException {
 		System.out.println("Log: Offene Jobs werden abgearbeitet.");
 		if (this.jobs.size() == 0) {
 			System.out.println("Log: JobWorker-Info: Es gibt keine Jobs abzuarbeiten.");
@@ -66,7 +68,7 @@ public class JobWorker {
 		}
 	}
 
-	public ArrayList<Job> getJobs() {
+	protected ArrayList<Job> getJobs() {
 		return this.jobs;
 	}
 

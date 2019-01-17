@@ -1,3 +1,5 @@
+package DigitalStockPortfolio;
+
 import java.util.ArrayList;
 
 public class CustodyAccount {
@@ -11,7 +13,6 @@ public class CustodyAccount {
 	private Account account;
 	private JobWorker jobWorker;
 	private StockExchange stockExchange;
-	private double currentValue;
 	
 	// construct
 	public CustodyAccount(Account account, StockExchange stockExchange) {
@@ -64,7 +65,6 @@ public class CustodyAccount {
 	public void defineLimitSell(String isinNo, double limit) {
 		Job job = new Job(isinNo, JobType.SELL, limit);
 		this.jobWorker.addJob(job);
-
 	}
 
 	public void defineLimitBuy(String isinNo, double limit) {
@@ -80,12 +80,31 @@ public class CustodyAccount {
 		}
 	}
 	
-	public void addShare(Share share) {
+	protected void addShare(Share share) {
 		this.shares.add(share);
 	}
 	
 	public ArrayList<Job> getJobs() {
 		return this.jobWorker.getJobs();
+	}
+	
+	public String printJobs() {
+		String jobString = "";
+		ArrayList<String> jobsAsString = new ArrayList<String>();
+		ArrayList<Job> jobs = this.getJobs();
+		if (jobs.size() > 0) {
+			for (Job job : jobs) {
+				String limitAsString = "";
+				if (job.getLimit() > 0.0) {
+					limitAsString = ", Limit:" + job.getLimit();
+				}
+				jobsAsString.add("ID: " + Integer.toString(job.getId()) + ", Typ: " + job.getJobType() + ", isinNo: " + job.getIsinNo() + limitAsString);
+			}
+			jobString = String.join(" | ", jobsAsString);
+		} else {
+			jobString =  "Keine Jobs vorhanden die ausgegeben werden können.";
+		}
+		return jobString;
 	}
 	
 	public void runJobs() throws StockExchangeException, JobWorkerException {
@@ -96,21 +115,26 @@ public class CustodyAccount {
 		}
 	}
 	
-	// setters/getters
-	public void setCurrentValue(double value) {
-		this.currentValue = value;
-	}
-	
-	public double getCurrentValue() {
-		return this.currentValue;
-	}
-	
 	public int getCustodyAccountNumber() {
 		return this.custodyAccountNumber;
 	}
 
 	public ArrayList<Share> getShares() {
 		return this.shares;
+	}
+	
+	public String printShares() {
+		String shareString = "";
+		ArrayList<String> sharesAsString = new ArrayList<String>();
+		if (shares.size() > 0) {
+			for (Share share : this.getShares()) {
+				sharesAsString.add("Name: " + share.getName() + ", IsinNo: " + share.getIsinNo() + ", gekauft für: " + share.getCostPrice());
+			}
+			shareString = String.join( " | ", sharesAsString);
+		} else {
+			shareString = "Keine Aktien vorhanden die ausgegeben werden können.";
+		}
+		return shareString;
 	}
 	
 	public Share getShare(String isinNo) {
@@ -126,8 +150,12 @@ public class CustodyAccount {
 	public void removeShare(Share share) {
 		this.shares.removeIf(e -> e == share);
 	}
+	
+	public void removeJob(int jobId) {
+		this.jobWorker.removeJob(jobId);
+	}
 
-	public Account getAccount() {
+	protected Account getAccount() {
 		return this.account;
 	}
 }

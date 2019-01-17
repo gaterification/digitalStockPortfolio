@@ -1,6 +1,7 @@
+package DigitalStockPortfolio;
 
 public class StockExchangeException extends Exception {
-	public StockExchangeException(String msg) {
+	protected StockExchangeException(String msg) {
 		super(msg);
 	}
 }

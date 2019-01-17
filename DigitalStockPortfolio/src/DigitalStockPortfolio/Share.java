@@ -1,3 +1,4 @@
+package DigitalStockPortfolio;
 
 public class Share {
 	// attributes
@@ -6,22 +7,22 @@ public class Share {
 	private String isinNo;
 	
 	// construct
-	public Share(String name, double costPrice, String isinNo) {
+	protected Share(String name, double costPrice, String isinNo) {
 		this.name = name;
 		this.costPrice = costPrice;
 		this.isinNo = isinNo;
 	}
 	
 	// methods
-	public String getName() {
+	protected String getName() {
 		return this.name;
 	}
 	
-	public double getCostPrice() {
+	protected double getCostPrice() {
 		return this.costPrice;
 	}
 	
-	public String getIsinNo() {
+	protected String getIsinNo() {
 		return this.isinNo;
 	}
 }
