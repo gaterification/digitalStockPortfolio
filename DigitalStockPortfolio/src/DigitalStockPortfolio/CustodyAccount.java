@@ -147,7 +147,7 @@ public class CustodyAccount {
 		return null;
 	}
 	
-	public void removeShare(Share share) {
+	protected void removeShare(Share share) {
 		this.shares.removeIf(e -> e == share);
 	}
 	

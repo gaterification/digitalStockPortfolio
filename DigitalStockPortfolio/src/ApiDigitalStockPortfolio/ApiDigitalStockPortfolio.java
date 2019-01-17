@@ -38,7 +38,7 @@ public class ApiDigitalStockPortfolio {
 			return this.account.disburse(amount);
 		} catch (AccountException e) {
 			// TODO: e.getMassage() ?!?
-			System.err.println("Nicht genug Geld vorhanden um " + amount + " abzuheben.");
+			System.err.println(e.getMessage());
 		}
 		return 0.0;
 	}

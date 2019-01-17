@@ -10,9 +10,15 @@ public class TestApiDigitalStockPortfolio {
 	
 	public static void main(String[] args) {
 		// TODO: @all: moeglichkeiten dokumentieren!!
-		TestApiDigitalStockPortfolio apiTest = new TestApiDigitalStockPortfolio();
-		ApiDigitalStockPortfolio api = apiTest.getApi();
-		
+		ApiDigitalStockPortfolio api = new ApiDigitalStockPortfolio();
+		api.sellShare("TSLA");
+		api.runJobs();
+/*		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}*/
+
 //		System.out.println("Account-Nummer, sollte 1 sein: " + api.getAccountNumber());
 //		System.out.println("CustodyAccount-Nummer, sollte 1 sein: " + api.getCustodyAccountNumber());
 //		System.out.println("Account-Saldo, sollte 0.0 sein: " + api.getAccountBalance());
