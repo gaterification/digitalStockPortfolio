@@ -1,16 +1,4 @@
-package ApiDigitalStockPortfolio;
-
 import java.util.ArrayList;
-import DigitalStockPortfolio.Account;
-import DigitalStockPortfolio.AccountException;
-import DigitalStockPortfolio.CustodyAccount;
-import DigitalStockPortfolio.CustodyAccountException;
-import DigitalStockPortfolio.Job;
-import DigitalStockPortfolio.JobWorkerException;
-import DigitalStockPortfolio.Nasdaq;
-import DigitalStockPortfolio.Share;
-import DigitalStockPortfolio.StockExchange;
-import DigitalStockPortfolio.StockExchangeException;
 
 public class ApiDigitalStockPortfolio {
 	private Account account;
@@ -37,8 +25,7 @@ public class ApiDigitalStockPortfolio {
 		try {
 			return this.account.disburse(amount);
 		} catch (AccountException e) {
-			// TODO: e.getMassage() ?!?
-			System.err.println(e.getMessage());
+			System.err.println("Nicht genug Geld vorhanden um " + amount + " abzuheben.");
 		}
 		return 0.0;
 	}
@@ -81,16 +68,8 @@ public class ApiDigitalStockPortfolio {
 		return this.custodyAccount.getShares();
 	}
 	
-	public String printShares() {
-		return this.custodyAccount.printShares();
-	}
-
 	public ArrayList<Job> getJobs() {
 		return this.custodyAccount.getJobs();
-	}
-	
-	public String printJobs() {
-		return this.custodyAccount.printJobs();
 	}
 	
 	public void buyShare(String isinNo) {
@@ -121,7 +100,9 @@ public class ApiDigitalStockPortfolio {
 		}
 	}
 	
-	public void removeJobs(int jobId) {
-		this.custodyAccount.removeJob(jobId);
+	//Detail for sell or buy (michel)
+	public void getDetails(String isinNo) {
+		getMarketPrice(isinNo);
+		getAccountBalance();
 	}
 }
