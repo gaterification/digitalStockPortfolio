@@ -80,7 +80,7 @@ public class JobWorker {
 				try {
 					runJobs();
 				} catch (StockExchangeException | JobWorkerException e) {
-					e.printStackTrace(); // wait until next run
+					System.err.println(e.getMessage());
 				}
 			}
 		};
