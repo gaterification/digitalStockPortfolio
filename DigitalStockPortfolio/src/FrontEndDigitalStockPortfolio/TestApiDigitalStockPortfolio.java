@@ -1,4 +1,6 @@
-package ApiDigitalStockPortfolio;
+package FrontEndDigitalStockPortfolio;
+
+import ApiDigitalStockPortfolio.ApiDigitalStockPortfolio;
 
 //import java.util.ArrayList;
 // TODO: both not needed!!
