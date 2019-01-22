@@ -102,7 +102,7 @@ public class CustodyAccount {
 			}
 			jobString = String.join(" | ", jobsAsString);
 		} else {
-			jobString =  "Keine Jobs vorhanden die ausgegeben werden können.";
+			jobString =  "Keine Jobs vorhanden die ausgegeben werden kï¿½nnen.";
 		}
 		return jobString;
 	}
@@ -128,11 +128,11 @@ public class CustodyAccount {
 		ArrayList<String> sharesAsString = new ArrayList<String>();
 		if (shares.size() > 0) {
 			for (Share share : this.getShares()) {
-				sharesAsString.add("Name: " + share.getName() + ", IsinNo: " + share.getIsinNo() + ", gekauft für: " + share.getCostPrice());
+				sharesAsString.add("Name: " + share.getName() + ", IsinNo: " + share.getIsinNo() + ", gekauft fuer: " + share.getCostPrice());
 			}
 			shareString = String.join( " | ", sharesAsString);
 		} else {
-			shareString = "Keine Aktien vorhanden die ausgegeben werden können.";
+			shareString = "Keine Aktien vorhanden die ausgegeben werden kï¿½nnen.";
 		}
 		return shareString;
 	}
