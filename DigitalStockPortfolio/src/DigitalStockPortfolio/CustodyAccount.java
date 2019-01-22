@@ -102,7 +102,7 @@ public class CustodyAccount {
 			}
 			jobString = String.join(" | ", jobsAsString);
 		} else {
-			jobString =  "Keine Jobs vorhanden die ausgegeben werden k�nnen.";
+			jobString =  "Keine Jobs vorhanden die ausgegeben werden koennen.";
 		}
 		return jobString;
 	}
@@ -132,7 +132,7 @@ public class CustodyAccount {
 			}
 			shareString = String.join( " | ", sharesAsString);
 		} else {
-			shareString = "Keine Aktien vorhanden die ausgegeben werden k�nnen.";
+			shareString = "Keine Aktien vorhanden die ausgegeben werden koennen.";
 		}
 		return shareString;
 	}
