@@ -130,7 +130,7 @@ public class CustodyAccount {
 			for (Share share : this.getShares()) {
 				sharesAsString.add("Name: " + share.getName() + ", IsinNo: " + share.getIsinNo() + ", gekauft fuer: " + share.getCostPrice());
 			}
-			shareString = String.join( " | ", sharesAsString);
+			shareString = String.join( "\n", sharesAsString);
 		} else {
 			shareString = "Keine Aktien vorhanden die ausgegeben werden koennen.";
 		}
