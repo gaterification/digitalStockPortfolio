@@ -100,7 +100,7 @@ public class CustodyAccount {
 				}
 				jobsAsString.add("ID: " + Integer.toString(job.getId()) + ", Typ: " + job.getJobType() + ", isinNo: " + job.getIsinNo() + limitAsString);
 			}
-			jobString = String.join(" | ", jobsAsString);
+			jobString = String.join("\n", jobsAsString);
 		} else {
 			jobString =  "Keine Jobs vorhanden die ausgegeben werden koennen.";
 		}
