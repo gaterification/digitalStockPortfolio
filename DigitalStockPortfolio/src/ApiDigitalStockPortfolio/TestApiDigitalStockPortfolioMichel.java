@@ -96,7 +96,7 @@ public class TestApiDigitalStockPortfolioMichel {
 		this.api.buyShare(isinNo);
 		System.out.println("-----------------------------------------");
 		System.out.println("zum Marktpreis Preis von: " + api.getMarketPrice(isinNo));
-		System.out.println("Neuer Account Saldo beträgt: " + api.getAccountBalance());
+		System.out.println("Neuer Account Saldo betraegt: " + api.getAccountBalance());
 		System.out.println("-----------------------------------------");
 	}
 	
@@ -104,21 +104,21 @@ public class TestApiDigitalStockPortfolioMichel {
 		this.api.sellShare(isinNo);
 		System.out.println("-----------------------------------------");
 		System.out.println("zum Marktpreis Preis von: " + api.getMarketPrice(isinNo));
-		System.out.println("Neuer Account Saldo beträgt: " + api.getAccountBalance());
+		System.out.println("Neuer Account Saldo betraegt: " + api.getAccountBalance());
 		System.out.println("-----------------------------------------");
 	}
 	
 	private void definedLimiteBuy(String isinNo, double limit) {
 		this.api.definedLimitBuy(isinNo, limit);
 		System.out.println("-----------------------------------------");
-		System.out.println("Aktueller Marktpreis beträgt: " + api.getMarketPrice(isinNo));
+		System.out.println("Aktueller Marktpreis betraegt: " + api.getMarketPrice(isinNo));
 		System.out.println("-----------------------------------------");
 	}
 	
 	private void definedLimiteSell(String isinNo, double limit) {
 		this.api.definedLimitSell(isinNo, limit);
 		System.out.println("-----------------------------------------");
-		System.out.println("Aktueller Marktpreis beträgt: " + api.getMarketPrice(isinNo));
+		System.out.println("Aktueller Marktpreis betraegt: " + api.getMarketPrice(isinNo));
 		System.out.println("-----------------------------------------");
 	}
 	

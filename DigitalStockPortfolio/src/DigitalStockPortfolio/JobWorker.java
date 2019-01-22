@@ -184,7 +184,7 @@ public class JobWorker {
 		} else {
 			// no matching share found - remove job and throw exception
 			this.removeJob(job.getId());
-			throw new JobWorkerException("Keine passende Aktie mit der isinNo '" + job.getIsinNo() + "' für den Job nr " + job.getId() + " gefunden. Der Job wurde entfernt.");
+			throw new JobWorkerException("Keine passende Aktie mit der isinNo '" + job.getIsinNo() + "' fuer den Job nr " + job.getId() + " gefunden. Der Job wurde entfernt.");
 		}
 	}
 

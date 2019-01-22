@@ -141,7 +141,7 @@ public class TestApiDigitalStockPortfolio {
 			}
 			jobString = "Jobs: " + String.join(" | ", jobsAsString);
 		} else {
-			jobString =  "Keine Jobs vorhanden die ausgegeben werden können.";
+			jobString =  "Keine Jobs vorhanden die ausgegeben werden koennen.";
 		}
 		System.out.println(jobString);
 	}*/
@@ -151,11 +151,11 @@ public class TestApiDigitalStockPortfolio {
 		ArrayList<String> sharesAsString = new ArrayList<String>();
 		if (shares.size() > 0) {
 			for (Share share : shares) {
-				sharesAsString.add("Aktien: Name: " + share.getName() + ", IsinNo: " + share.getIsinNo() + ", gekauft für: " + share.getCostPrice());
+				sharesAsString.add("Aktien: Name: " + share.getName() + ", IsinNo: " + share.getIsinNo() + ", gekauft fuer: " + share.getCostPrice());
 			}
 			shareString = "Auflistung Aktien: " + String.join( " | ", sharesAsString);
 		} else {
-			shareString = "Keine Aktien vorhanden die ausgegeben werden können.";
+			shareString = "Keine Aktien vorhanden die ausgegeben werden koennen.";
 		}
 		System.out.println(shareString);
 	}
