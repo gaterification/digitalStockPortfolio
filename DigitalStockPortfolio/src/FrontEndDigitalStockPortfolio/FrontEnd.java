@@ -171,8 +171,12 @@ public class FrontEnd {
 		buttonDisburse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldTransactionAmount.getText());
-				tasp.disburse(s);
+				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
+					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldTransactionAmount.getText());
+					tasp.disburse(s);
+				}	
 			}
 		});
 
@@ -208,16 +212,24 @@ public class FrontEnd {
 		buttonDefinedLimitBuy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-				tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				if (textFieldDefinedLimitPrice.getText().equals(null) || textFieldDefinedLimitPrice.getText().equals("")) {
+					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
+					tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				}
 			}
 		});
 
 		buttonDefinedLimitSell.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-				tasp.definedLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				if (textFieldDefinedLimitPrice.getText().equals(null) || textFieldDefinedLimitPrice.getText().equals("")) {
+					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
+					tasp.definedLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				}
 			}
 		});
 
@@ -231,8 +243,13 @@ public class FrontEnd {
 		buttonRemoveJobs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int s = Integer.parseInt(textFieldRemoveJobs.getText());
-				tasp.removeJobs(s);
+				if (textFieldRemoveJobs.getText().equals(null) || textFieldRemoveJobs.getText().equals("")) {
+					System.out.println("Bitte im Feld Job ID die ID eingeben!");
+				} else {
+					int s = Integer.parseInt(textFieldRemoveJobs.getText());
+					tasp.removeJobs(s);
+				}
+				
 			}
 		});
 
