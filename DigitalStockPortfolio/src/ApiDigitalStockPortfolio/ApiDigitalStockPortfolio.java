@@ -98,7 +98,7 @@ public class ApiDigitalStockPortfolio {
 		this.runJobs();
 	}
 	
-	public void definedLimitBuy(String isinNo, double limit) {
+	public void defineLimitBuy(String isinNo, double limit) {
 		this.custodyAccount.defineLimitBuy(isinNo, limit);
 		this.runJobs();
 	}
@@ -108,7 +108,7 @@ public class ApiDigitalStockPortfolio {
 		this.runJobs();
 	}
 	
-	public void definedLimitSell(String isinNo, double limit) {
+	public void defineLimitSell(String isinNo, double limit) {
 		this.custodyAccount.defineLimitSell(isinNo, limit);
 		this.runJobs();
 	}
