@@ -31,7 +31,9 @@ public class FrontEnd {
 
 	private ArrayList<String> symbolList = new ArrayList<String>();
 
+	// Default Konstuktor
 	private FrontEnd() {
+
 		// Read all Symbols
 		Reader in;
 		try {
@@ -50,13 +52,16 @@ public class FrontEnd {
 
 	}
 
+	// Hauptkontruktor
 	public FrontEnd(TestApiDigitalStockPortfolioMichel tasp) {
 		this();
 		this.tasp = tasp;
 
-		JFrame frame = new JFrame("JFrame Example");
+		// Frame
+		JFrame frame = new JFrame("Digital Stock Portfolio");
 		frame.setPreferredSize(new Dimension(700, 900));
 
+		// Panel
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 
@@ -67,7 +72,9 @@ public class FrontEnd {
 		panel.add(northPanel, BorderLayout.NORTH);
 		panel.add(centerPanel, BorderLayout.CENTER);
 		panel.add(southPanel, BorderLayout.SOUTH);
+
 		southPanel.setLayout(new FlowLayout());
+
 		JTextArea textArea = new JTextArea(5, 30);
 		textArea.setEditable(false);
 		PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
@@ -87,11 +94,10 @@ public class FrontEnd {
 		JLabel labelTransactionAmount = new JLabel("Transaktionsbetrag eingeben:");
 
 		JLabel labelStockSelection = new JLabel("Aktie auswaehlen:");
-		
+
 		JLabel labelPriceLimit = new JLabel("Preis Limite eingeben");
-		
+
 		JLabel labelJobID = new JLabel("Job ID eingeben");
-	
 
 		// JButtons
 		JButton buttonGetAccountBalance = new JButton();
@@ -117,7 +123,7 @@ public class FrontEnd {
 
 		JButton buttonDefinedLimitBuy = new JButton();
 		buttonDefinedLimitBuy.setText("Aktie kaufen mit Limite");
-		
+
 		JButton buttonDefinedLimitSell = new JButton();
 		buttonDefinedLimitSell.setText("Aktie verkaufen mit Limite");
 
@@ -130,17 +136,9 @@ public class FrontEnd {
 		JButton buttonPrintShares = new JButton();
 		buttonPrintShares.setText("Depot");
 
-//		Listener listener = new Listener();
-//		buttonGetAccountBalance.addActionListener(listener);
-
-//		System.out.println("\n" + "Test 24");
-
-		// JTextField
+		// TextFields
 		JTextField textFieldTransactionAmount = new JTextField(10);
-//		JTextField textFieldBuyShare = new JTextField(5);
-//		JTextField textFieldSellShare = new JTextField(5);
 		JTextField textFieldDefinedLimitPrice = new JTextField(10);
-//		JTextField textFieldShare = new JTextField(5);
 		JTextField textFieldRemoveJobs = new JTextField(5);
 
 		// ComboBoxModel
@@ -149,7 +147,7 @@ public class FrontEnd {
 
 		JComboBox<String> comboBoxMarketShares = new JComboBox<String>(comboBoxModelMarketShares);
 
-		// Listener
+		// Listener für Buttons
 		buttonGetAccountBalance.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -160,16 +158,25 @@ public class FrontEnd {
 		buttonDeposit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldTransactionAmount.getText());
-				tasp.deposit(s);
+				
+				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
+					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldTransactionAmount.getText());
+					tasp.deposit(s);
+				}
 			}
 		});
 
 		buttonDisburse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldTransactionAmount.getText());
-				tasp.disburse(s);
+				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
+					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldTransactionAmount.getText());
+					tasp.disburse(s);
+				}	
 			}
 		});
 
@@ -187,7 +194,6 @@ public class FrontEnd {
 			}
 		});
 
-		
 		buttonBuyShare.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -206,16 +212,24 @@ public class FrontEnd {
 		buttonDefinedLimitBuy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-				tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				if (textFieldDefinedLimitPrice.getText().equals(null) || textFieldDefinedLimitPrice.getText().equals("")) {
+					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
+					tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				}
 			}
 		});
-		
+
 		buttonDefinedLimitSell.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-				tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				if (textFieldDefinedLimitPrice.getText().equals(null) || textFieldDefinedLimitPrice.getText().equals("")) {
+					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
+				} else {
+					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
+					tasp.definedLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+				}
 			}
 		});
 
@@ -229,8 +243,13 @@ public class FrontEnd {
 		buttonRemoveJobs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int s = Integer.parseInt(textFieldRemoveJobs.getText());
-				tasp.removeJobs(s);
+				if (textFieldRemoveJobs.getText().equals(null) || textFieldRemoveJobs.getText().equals("")) {
+					System.out.println("Bitte im Feld Job ID die ID eingeben!");
+				} else {
+					int s = Integer.parseInt(textFieldRemoveJobs.getText());
+					tasp.removeJobs(s);
+				}
+				
 			}
 		});
 
@@ -241,26 +260,10 @@ public class FrontEnd {
 			}
 		});
 
-		/*
-		 * getAccountBalance.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * tasp.getAccountBalance(); } });
-		 */
-
-		/*
-		 * textField.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { System.out.println("Text=" +
-		 * textField.getText()); } });
-		 */
-
-		// add to panels
-
+		// NorthPanel
 		northPanel.add(title);
-//		centerPanel.add(label);
-//		nordpanel.add(textField);
-//		System.out.println(textField.getText());
 
+		// CenterPanel
 		centerPanel.add(buttonGetAccountBalance);
 
 		centerPanel.add(labelTransactionAmount);
@@ -270,15 +273,11 @@ public class FrontEnd {
 
 		centerPanel.add(labelStockSelection);
 		centerPanel.add(comboBoxMarketShares);
-		
 
 		centerPanel.add(buttonGetMarketPrice);
-//		centerPanel.add(textFieldShare);
 		centerPanel.add(buttonBuyShare);
-//		centerPanel.add(textFieldShare);
 		centerPanel.add(buttonSellShare);
 
-		
 		centerPanel.add(labelPriceLimit);
 		centerPanel.add(textFieldDefinedLimitPrice);
 		centerPanel.add(buttonDefinedLimitBuy);
@@ -294,18 +293,11 @@ public class FrontEnd {
 		centerPanel.add(buttonCalculateWinOrLoss);
 
 		// position
-
 		frame.add(panel);
-//		frame.setSize(1000, 1600);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 
 	}
-
-	/*
-	 * private void buyShare(String s) { // wenn man button "kaufen" klickt...
-	 * this.tasp.buyShare(s); }
-	 */
 }
