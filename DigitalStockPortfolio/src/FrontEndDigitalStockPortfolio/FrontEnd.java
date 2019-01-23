@@ -216,7 +216,7 @@ public class FrontEnd {
 					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
 				} else {
 					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-					tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					tasp.defineLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
 				}
 			}
 		});
@@ -228,7 +228,7 @@ public class FrontEnd {
 					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
 				} else {
 					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-					tasp.definedLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					tasp.defineLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
 				}
 			}
 		});

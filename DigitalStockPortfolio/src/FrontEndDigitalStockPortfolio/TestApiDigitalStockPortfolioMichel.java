@@ -1,6 +1,7 @@
 package FrontEndDigitalStockPortfolio;
 
 import ApiDigitalStockPortfolio.ApiDigitalStockPortfolio;
+import DigitalStockPortfolio.CustodyAccountException;
 
 public class TestApiDigitalStockPortfolioMichel {
 	private ApiDigitalStockPortfolio api;
@@ -139,15 +140,15 @@ public class TestApiDigitalStockPortfolioMichel {
 		System.out.println("---------------------------------------------------");
 	}
 
-	public void definedLimitBuy(String isinNo, double limit) {
-		this.api.definedLimitBuy(isinNo, limit);
+	public void defineLimitBuy(String isinNo, double limit) {
+		this.api.defineLimitBuy(isinNo, limit);
 		System.out.println("---------------------------------------------------");
 		System.out.println("Aktie kaufen mit Limitpreis von: " + limit);
 		System.out.println("---------------------------------------------------");
 	}
 
-	public void definedLimitSell(String isinNo, double limit) {
-		this.api.definedLimitSell(isinNo, limit);
+	public void defineLimitSell(String isinNo, double limit) {
+		this.api.defineLimitSell(isinNo, limit);
 		System.out.println("---------------------------------------------------");
 		System.out.println("Aktie verkaufen mit Limitpreis von: " + limit);
 		System.out.println("---------------------------------------------------");
