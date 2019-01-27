@@ -27,7 +27,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 public class FrontEnd {
-	public TestApiDigitalStockPortfolioMichel tasp;
+	public ApiConnection apiConnection;
 
 	private ArrayList<String> symbolList = new ArrayList<String>();
 
@@ -43,19 +43,17 @@ public class FrontEnd {
 				symbolList.add(record.get(0));
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Fehler: " + e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Fehler: " + e.getMessage());
 		}
 
 	}
 
 	// Hauptkontruktor
-	public FrontEnd(TestApiDigitalStockPortfolioMichel tasp) {
+	public FrontEnd(ApiConnection apiCon) {
 		this();
-		this.tasp = tasp;
+		this.apiConnection = apiCon;
 
 		// Frame
 		JFrame frame = new JFrame("Digital Stock Portfolio");
@@ -79,7 +77,7 @@ public class FrontEnd {
 		textArea.setEditable(false);
 		PrintStream printStream = new PrintStream(new CustomOutputStream(textArea));
 		System.setOut(printStream);
-		System.setErr(printStream);
+		//System.setErr(printStream); // errors should not be displayed in frontend
 
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setPreferredSize(new Dimension(600, 600));
@@ -138,7 +136,7 @@ public class FrontEnd {
 
 		// TextFields
 		JTextField textFieldTransactionAmount = new JTextField(10);
-		JTextField textFieldDefinedLimitPrice = new JTextField(10);
+		JTextField textFieldDefineLimitPrice = new JTextField(10);
 		JTextField textFieldRemoveJobs = new JTextField(5);
 
 		// ComboBoxModel
@@ -147,23 +145,23 @@ public class FrontEnd {
 
 		JComboBox<String> comboBoxMarketShares = new JComboBox<String>(comboBoxModelMarketShares);
 
-		// Listener für Buttons
+		// Listener fuer Buttons
 		buttonGetAccountBalance.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.getAccountBalance();
+				apiConnection.getAccountBalance();
 			}
 		});
 
 		buttonDeposit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				String output = "";
 				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
 					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
 				} else {
 					double s = Double.parseDouble(textFieldTransactionAmount.getText());
-					tasp.deposit(s);
+					apiConnection.deposit(s);
 				}
 			}
 		});
@@ -175,7 +173,7 @@ public class FrontEnd {
 					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
 				} else {
 					double s = Double.parseDouble(textFieldTransactionAmount.getText());
-					tasp.disburse(s);
+					apiConnection.disburse(s);
 				}	
 			}
 		});
@@ -183,28 +181,28 @@ public class FrontEnd {
 		buttonCalculateWinOrLoss.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.calculateWinOrLoss();
+				apiConnection.calculateWinOrLoss();
 			}
 		});
 
 		buttonGetMarketPrice.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.getMarketPrice(String.valueOf(comboBoxMarketShares.getSelectedItem()));
+				apiConnection.getMarketPrice(String.valueOf(comboBoxMarketShares.getSelectedItem()));
 			}
 		});
 
 		buttonBuyShare.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.buyShare(String.valueOf(comboBoxMarketShares.getSelectedItem()));
+				apiConnection.buyShare(String.valueOf(comboBoxMarketShares.getSelectedItem()));
 			}
 		});
 
 		buttonSellShare.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.sellShare(String.valueOf(comboBoxMarketShares.getSelectedItem()));
+				apiConnection.sellShare(String.valueOf(comboBoxMarketShares.getSelectedItem()));
 
 			}
 		});
@@ -212,11 +210,11 @@ public class FrontEnd {
 		buttonDefinedLimitBuy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (textFieldDefinedLimitPrice.getText().equals(null) || textFieldDefinedLimitPrice.getText().equals("")) {
+				if (textFieldDefineLimitPrice.getText().equals(null) || textFieldDefineLimitPrice.getText().equals("")) {
 					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
 				} else {
-					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-					tasp.definedLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					double s = Double.parseDouble(textFieldDefineLimitPrice.getText());
+					apiConnection.defineLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
 				}
 			}
 		});
@@ -224,11 +222,11 @@ public class FrontEnd {
 		buttonDefinedLimitSell.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (textFieldDefinedLimitPrice.getText().equals(null) || textFieldDefinedLimitPrice.getText().equals("")) {
+				if (textFieldDefineLimitPrice.getText().equals(null) || textFieldDefineLimitPrice.getText().equals("")) {
 					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
 				} else {
-					double s = Double.parseDouble(textFieldDefinedLimitPrice.getText());
-					tasp.definedLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					double s = Double.parseDouble(textFieldDefineLimitPrice.getText());
+					apiConnection.defineLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
 				}
 			}
 		});
@@ -236,7 +234,7 @@ public class FrontEnd {
 		buttonPrintJobs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.printJobs();
+				apiConnection.printJobs();
 			}
 		});
 
@@ -247,7 +245,7 @@ public class FrontEnd {
 					System.out.println("Bitte im Feld Job ID die ID eingeben!");
 				} else {
 					int s = Integer.parseInt(textFieldRemoveJobs.getText());
-					tasp.removeJobs(s);
+					apiConnection.removeJobs(s);
 				}
 				
 			}
@@ -256,7 +254,7 @@ public class FrontEnd {
 		buttonPrintShares.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tasp.printShares();
+				apiConnection.printShares();
 			}
 		});
 
@@ -279,7 +277,7 @@ public class FrontEnd {
 		centerPanel.add(buttonSellShare);
 
 		centerPanel.add(labelPriceLimit);
-		centerPanel.add(textFieldDefinedLimitPrice);
+		centerPanel.add(textFieldDefineLimitPrice);
 		centerPanel.add(buttonDefinedLimitBuy);
 		centerPanel.add(buttonDefinedLimitSell);
 
