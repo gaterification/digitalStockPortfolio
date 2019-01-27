@@ -34,7 +34,7 @@ public class Account {
 		} else {
 			accountBalance = accountBalance - amount;
 		}
-		return accountBalance;
+		return amount;
 	}
 
 	public void deposit(double amount) {

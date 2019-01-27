@@ -57,9 +57,13 @@ public class CustodyAccount {
 		this.jobWorker.addJob(job);
 	}
 
-	public void sellShare(String isinNo) {
-		Job job = new Job(isinNo, JobType.SELL);
-		this.jobWorker.addJob(job);
+	public void sellShare(String isinNo) throws CustodyAccountException {
+		if (this.doesShareExist(isinNo)) {
+			Job job = new Job(isinNo, JobType.SELL);
+			this.jobWorker.addJob(job);
+		} else {
+			throw new CustodyAccountException("Es gibt keine Aktie mit der isinNo: " + isinNo);
+		}
 	}
 
 	public void defineLimitSell(String isinNo, double limit) {
@@ -107,12 +111,8 @@ public class CustodyAccount {
 		return jobString;
 	}
 	
-	public void runJobs() throws StockExchangeException, JobWorkerException {
-		try {
-			this.jobWorker.runJobs();
-		} catch (StockExchangeException | JobWorkerException e) {
-			throw e;
-		}
+	public String runJobs() {
+		return this.jobWorker.runJobs();
 	}
 	
 	public int getCustodyAccountNumber() {
@@ -151,11 +151,33 @@ public class CustodyAccount {
 		this.shares.removeIf(e -> e == share);
 	}
 	
-	public void removeJob(int jobId) {
-		this.jobWorker.removeJob(jobId);
+	public void removeJob(int jobId) throws CustodyAccountException {
+		if (this.doesJobExist(jobId)) {
+			this.jobWorker.removeJob(jobId);
+		} else {
+			throw new CustodyAccountException("Es existiert kein Job mit der ID: " + jobId);
+		}
 	}
 
 	protected Account getAccount() {
 		return this.account;
+	}
+	
+	public boolean doesShareExist(String isinNo) {
+		for (Share obj : this.getShares()) {
+			if (obj.getIsinNo().equals(isinNo)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean doesJobExist(int jobId) {
+		for (Job obj : this.getJobs()) {
+			if (obj.getId() == jobId) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

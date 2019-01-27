@@ -6,7 +6,6 @@ import DigitalStockPortfolio.AccountException;
 import DigitalStockPortfolio.CustodyAccount;
 import DigitalStockPortfolio.CustodyAccountException;
 import DigitalStockPortfolio.Job;
-import DigitalStockPortfolio.JobWorkerException;
 import DigitalStockPortfolio.Nasdaq;
 import DigitalStockPortfolio.Share;
 import DigitalStockPortfolio.StockExchange;
@@ -37,14 +36,14 @@ public class ApiDigitalStockPortfolio {
 		try {
 			return this.account.disburse(amount);
 		} catch (AccountException e) {
-			// TODO: e.getMassage() ?!?
 			System.err.println(e.getMessage());
+			return 0.0;
 		}
-		return 0.0;
 	}
 	
-	public void deposit(double amount) {
+	public boolean deposit(double amount) {
 		this.account.deposit(amount);
+		return true;
 	}
 	
 	public double getAccountBalance() {
@@ -63,18 +62,18 @@ public class ApiDigitalStockPortfolio {
 		try {
 			return this.custodyAccount.getMarketPrice(isinNo);
 		} catch (StockExchangeException e) {
-			System.err.println(e.getMessage() + " Die Angabe von 0.0 allenfalls ist nicht korrekt.");
+			System.err.println(e.getMessage());
+			return 0.0;
 		}
-		return 0.0;
 	}
 	
 	public double calculateWinOrLoss() {
 		try {
 			return this.custodyAccount.calculateWinOrLoss();
 		} catch (CustodyAccountException | StockExchangeException e) {
-			System.err.println(e.getMessage() + " Die Angabe von 0.0 allenfalls ist nicht korrekt.");
+			System.err.println(e.getMessage());
+			return 0.0;
 		}
-		return 0.0;
 	}
 	
 	public ArrayList<Share> getShares() {
@@ -93,35 +92,47 @@ public class ApiDigitalStockPortfolio {
 		return this.custodyAccount.printJobs();
 	}
 	
-	public void buyShare(String isinNo) {
+	public boolean buyShare(String isinNo) {
 		this.custodyAccount.buyShare(isinNo);
-		this.runJobs();
+		return true;
 	}
 	
-	public void defineLimitBuy(String isinNo, double limit) {
+	public boolean defineLimitBuy(String isinNo, double limit) {
 		this.custodyAccount.defineLimitBuy(isinNo, limit);
-		this.runJobs();
+		return true;
 	}
 	
-	public void sellShare(String isinNo) {
-		this.custodyAccount.sellShare(isinNo);
-		this.runJobs();
-	}
-	
-	public void defineLimitSell(String isinNo, double limit) {
-		this.custodyAccount.defineLimitSell(isinNo, limit);
-		this.runJobs();
-	}
-	
-	public void runJobs() {
-		try {
-			this.custodyAccount.runJobs();
-		} catch (StockExchangeException | JobWorkerException e) {
-			System.err.println(e.getMessage());
+	public String sellShare(String isinNo) {
+		if (this.custodyAccount.doesShareExist(isinNo)) {
+			try {
+				this.custodyAccount.sellShare(isinNo);
+				return "Aktie " + isinNo + " verkauft.";
+			} catch (CustodyAccountException e) {
+				System.err.println(e.getMessage());
+				return "Fehler: " + e.getMessage();
+			}
+		} else {
+			// return custom error
+			return "Fehler: Es existiert keine Aktie mit der isinNo '" + isinNo + "'.";
 		}
 	}
 	
-	public void removeJobs(int jobId) {
-		this.custodyAccount.removeJob(jobId);
+	public boolean defineLimitSell(String isinNo, double limit) {
+		this.custodyAccount.defineLimitSell(isinNo, limit);
+		return true;
+	}
+	
+	public String runJobs() {
+		return this.custodyAccount.runJobs();
+	}
+	
+	public String removeJob(int jobId) {
+		try {
+			this.custodyAccount.removeJob(jobId);
+			return "Job mit ID " + jobId + " wurde entfernt.";
+		} catch (CustodyAccountException e) {
+			System.err.println(e.getMessage());
+			return "Fehler: Job mit ID " + jobId + " konnte nicht entfernt werden.";
+		}
 	}
 }

@@ -33,10 +33,10 @@ public class JobWorker {
 		this.jobs.add(job);
 	}
 
-	protected void runJobs() throws StockExchangeException, JobWorkerException {
-		System.out.println("Log: Offene Jobs werden abgearbeitet.");
+	protected String runJobs() {
+		String ret = "";
 		if (this.jobs.size() == 0) {
-			System.out.println("Log: JobWorker-Info: Es gibt keine Jobs abzuarbeiten.");
+			ret = "Info: Es gibt keine Jobs abzuarbeiten. \n";
 		} else {
 			// sort job: first all job with type SELL should be executed so there is more money to buy jobs
 			this.jobs.sort(new Comparator<Job>() {
@@ -53,19 +53,25 @@ public class JobWorker {
 			});
 
 			// copy this.jobs because jobs are removed from this.jobs during loop
-			ArrayList<Job> jobsForIteration = new ArrayList<Job>(this.jobs); 
-			try {
-				for (Job job : jobsForIteration) {
-					if (job.getJobType() == JobType.BUY) {
+			ArrayList<Job> jobsForIteration = new ArrayList<Job>(this.jobs);
+			for (Job job : jobsForIteration) {
+				if (job.getJobType() == JobType.BUY) {
+					try {
 						this.handleJobTypeBuy(job);
-					} else {
-						this.handleJobTypeSell(job);				
+						ret = ret + "Info: Job " + job.getId() + " abgearbeitet. \n";
+					} catch (StockExchangeException | JobWorkerException e) {
+						ret = ret + "Fehler beim Job " + job.getId() + ": " + e.getMessage() + "\n";
 					}
+				} else {
+					try {
+						this.handleJobTypeSell(job);
+						ret = ret + "Info: Job " + job.getId() + " abgearbeitet. \n";
+					} catch (StockExchangeException | JobWorkerException e) {
+						ret = ret + "Fehler beim Job " + job.getId() + ": " + e.getMessage() + "\n";						}
 				}
-			} catch (StockExchangeException | JobWorkerException e) {
-				throw e;
 			}
 		}
+		return ret;
 	}
 
 	protected ArrayList<Job> getJobs() {
@@ -77,11 +83,7 @@ public class JobWorker {
 		this.periodicalRunJobs = new TimerTask() {
 			@Override
 			public void run() {
-				try {
-					runJobs();
-				} catch (StockExchangeException | JobWorkerException e) {
-					System.err.println(e.getMessage());
-				}
+				System.out.println(runJobs());
 			}
 		};
 
@@ -89,15 +91,6 @@ public class JobWorker {
 		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 		// run jobs all 5 minutes
 		executor.scheduleAtFixedRate(periodicalRunJobs, 0, 300000, TimeUnit.MILLISECONDS);
-	}
-
-	private boolean doesShareExist(String isinNo) {
-		for (Share obj : this.custodyAccount.getShares()) {
-			if (obj.getIsinNo().equals(isinNo)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private void handleJobTypeBuy(Job job) throws StockExchangeException, JobWorkerException {
@@ -168,7 +161,7 @@ public class JobWorker {
 	}
 
 	private void sellShare(Job job) throws JobWorkerException, StockExchangeException {
-		if (doesShareExist(job.getIsinNo()) == true) {
+		if (this.custodyAccount.doesShareExist(job.getIsinNo()) == true) {
 			Share share = custodyAccount.getShare(job.getIsinNo());
 			try {
 				double money = stockExchange.sellShare(share);
