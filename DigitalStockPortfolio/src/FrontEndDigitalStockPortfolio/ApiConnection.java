@@ -1,7 +1,6 @@
 package FrontEndDigitalStockPortfolio;
 
 import ApiDigitalStockPortfolio.ApiDigitalStockPortfolio;
-import DigitalStockPortfolio.CustodyAccountException;
 
 public class ApiConnection {
 	private ApiDigitalStockPortfolio api;

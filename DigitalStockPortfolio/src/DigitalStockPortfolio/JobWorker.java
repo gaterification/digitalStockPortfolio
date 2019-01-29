@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 public class JobWorker {
 	// class attributes
-	private static JobWorker jobWorker;
 
 	// attributes
 	private ArrayList<Job> jobs;

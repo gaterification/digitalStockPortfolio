@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class CustodyAccount {
 	// class attributes
-	private static CustodyAccount custodyAccount; // singleton
 	private static int trxNumber = 0;
 
 	// attributes
@@ -16,8 +15,7 @@ public class CustodyAccount {
 	
 	// construct
 	public CustodyAccount(Account account, StockExchange stockExchange) {
-		this.trxNumber = this.trxNumber + 1;
-		this.custodyAccountNumber = this.trxNumber;
+		this.custodyAccountNumber = ++ CustodyAccount.trxNumber;
 		this.shares = new ArrayList<Share>();
 		this.account = account;
 		this.stockExchange = stockExchange;

@@ -156,7 +156,6 @@ public class FrontEnd {
 		buttonDeposit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String output = "";
 				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
 					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
 				} else {

@@ -12,18 +12,14 @@ public class Job {
 	
 	// construct
 	protected Job (String isinNo, JobType type) {
-		this.trxNumber = this.trxNumber + 1;
-		this.id = trxNumber;
+		this.id = ++ trxNumber;
 		this.isinNo = isinNo;
 		this.limit = 0;
 		this.type = type;
 	}
 	
 	protected Job(String isinNo, JobType type, double limit) {
-		this.trxNumber = this.trxNumber + 1;
-		this.id = trxNumber;
-		this.isinNo = isinNo;
-		this.type = type;
+		this(isinNo, type);		
 		this.limit = limit;
 	}
 	
