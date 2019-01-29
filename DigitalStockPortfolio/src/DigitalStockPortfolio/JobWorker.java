@@ -8,8 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class JobWorker {
-	// class attributes
-
 	// attributes
 	private ArrayList<Job> jobs;
 	private StockExchange stockExchange;
