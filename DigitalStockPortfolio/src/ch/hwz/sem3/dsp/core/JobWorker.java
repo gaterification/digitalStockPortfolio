@@ -52,17 +52,16 @@ public class JobWorker {
 			// copy this.jobs because jobs are removed from this.jobs during loop
 			ArrayList<Job> jobsForIteration = new ArrayList<Job>(this.jobs);
 			for (Job job : jobsForIteration) {
+				strReturn.add("Info: Job " + job.getId() + " geprueft.");
 				if (job.getJobType() == JobType.BUY) {
 					try {
 						this.handleJobTypeBuy(job);
-						strReturn.add("Info: Job " + job.getId() + " geprueft.");
 					} catch (StockExchangeException | JobWorkerException e) {
 						strReturn.add("Fehler beim Job " + job.getId() + ": " + e.getMessage());
 					}
 				} else {
 					try {
 						this.handleJobTypeSell(job);
-						strReturn.add("Info: Job " + job.getId() + " geprueft.");
 					} catch (StockExchangeException | JobWorkerException e) {
 						strReturn.add("Fehler beim Job " + job.getId() + ": " + e.getMessage());						
 					}
