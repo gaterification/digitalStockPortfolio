@@ -125,7 +125,7 @@ public class JobWorker {
 				Share share = stockExchange.buyShare(job.getIsinNo(), this.custodyAccount.getAccount());
 				// add Share to CustodyAccount
 				this.custodyAccount.addShare(share);
-				System.out.println("Log: Aktie " + job.getIsinNo() + " gekauft.");
+				System.out.println("Log: Aktie " + job.getIsinNo() + " gekauft zum Preis: " + share.getCostPrice());
 				// remove Job from JobWorker
 				this.removeJob(job.getId());
 			} else {
@@ -167,7 +167,7 @@ public class JobWorker {
 				this.custodyAccount.removeShare(share);
 				// deposit money to account
 				this.custodyAccount.getAccount().deposit(money);
-				System.out.println("Log: Aktie " + job.getIsinNo() + " verkauft.");
+				System.out.println("Log: Aktie " + job.getIsinNo() + " verkauft zum Preis: " + money);
 			} catch (StockExchangeException e) {
 				throw e;
 			}
