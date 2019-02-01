@@ -108,7 +108,7 @@ public class FrontEnd {
 		buttonDisburse.setText("auszahlen");
 
 		JButton buttonGetMarketPrice = new JButton();
-		buttonGetMarketPrice.setText("Marktpreis abfragen");
+		buttonGetMarketPrice.setText("Aktienkurs abfragen");
 
 		JButton buttonCalculateWinOrLoss = new JButton();
 		buttonCalculateWinOrLoss.setText("Calculate Win/Loss");
@@ -135,7 +135,7 @@ public class FrontEnd {
 		buttonPrintShares.setText("Depot");
 
 		JButton buttonRunJobs = new JButton();
-		buttonRunJobs.setText("Jobdurchlauf starten");
+		buttonRunJobs.setText("pendente Jobs abarbeiten");
 
 		// TextFields
 		JTextField textFieldTransactionAmount = new JTextField(10);
