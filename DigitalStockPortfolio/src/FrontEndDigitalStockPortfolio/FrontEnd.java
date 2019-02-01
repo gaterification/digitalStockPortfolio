@@ -27,7 +27,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 public class FrontEnd {
-	public ApiConnection apiConnection;
+	private ApiConnection apiConnection;
 
 	private ArrayList<String> symbolList = new ArrayList<String>();
 
@@ -134,6 +134,9 @@ public class FrontEnd {
 		JButton buttonPrintShares = new JButton();
 		buttonPrintShares.setText("Depot");
 
+		JButton buttonRunJobs = new JButton();
+		buttonRunJobs.setText("Jobdurchlauf starten");
+
 		// TextFields
 		JTextField textFieldTransactionAmount = new JTextField(10);
 		JTextField textFieldDefineLimitPrice = new JTextField(10);
@@ -156,13 +159,23 @@ public class FrontEnd {
 		buttonDeposit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String output = "";
 				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
 					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
 				} else {
-					double s = Double.parseDouble(textFieldTransactionAmount.getText());
-					apiConnection.deposit(s);
+					try {
+						double s = Double.parseDouble(textFieldTransactionAmount.getText());
+						apiConnection.deposit(s);
+					} catch (NumberFormatException exception) {
+						System.out.println("Bitte geben Sie eine valide Zahl ein.");
+					}
 				}
+			}
+		});
+
+		buttonRunJobs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				apiConnection.runJobs();
 			}
 		});
 
@@ -172,8 +185,12 @@ public class FrontEnd {
 				if (textFieldTransactionAmount.getText().equals(null) || textFieldTransactionAmount.getText().equals("")) {
 					System.out.println("Bitte im Feld Transaktionsbetrag einen Betrag eingeben!");
 				} else {
-					double s = Double.parseDouble(textFieldTransactionAmount.getText());
-					apiConnection.disburse(s);
+					try {
+						double s = Double.parseDouble(textFieldTransactionAmount.getText());
+						apiConnection.disburse(s);
+					} catch (NumberFormatException exception) {
+						System.out.println("Bitte geben Sie eine valide Zahl ein.");
+					}
 				}	
 			}
 		});
@@ -203,7 +220,6 @@ public class FrontEnd {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				apiConnection.sellShare(String.valueOf(comboBoxMarketShares.getSelectedItem()));
-
 			}
 		});
 
@@ -213,8 +229,13 @@ public class FrontEnd {
 				if (textFieldDefineLimitPrice.getText().equals(null) || textFieldDefineLimitPrice.getText().equals("")) {
 					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
 				} else {
-					double s = Double.parseDouble(textFieldDefineLimitPrice.getText());
-					apiConnection.defineLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					try {
+						double s = Double.parseDouble(textFieldDefineLimitPrice.getText());
+						apiConnection.defineLimitBuy(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					} catch (NumberFormatException exception) {
+						System.out.println("Bitte geben Sie eine valide Zahl ein.");
+					}
+					
 				}
 			}
 		});
@@ -225,8 +246,13 @@ public class FrontEnd {
 				if (textFieldDefineLimitPrice.getText().equals(null) || textFieldDefineLimitPrice.getText().equals("")) {
 					System.out.println("Bitte im Feld Preis Limite einen Betrag eingeben!");
 				} else {
-					double s = Double.parseDouble(textFieldDefineLimitPrice.getText());
-					apiConnection.defineLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					try {
+						double s = Double.parseDouble(textFieldDefineLimitPrice.getText());
+						apiConnection.defineLimitSell(String.valueOf(comboBoxMarketShares.getSelectedItem()), s);
+					} catch (NumberFormatException exception) {
+						System.out.println("Bitte geben Sie eine valide Zahl ein.");
+					}
+					
 				}
 			}
 		});
@@ -241,13 +267,18 @@ public class FrontEnd {
 		buttonRemoveJobs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				if (textFieldRemoveJobs.getText().equals(null) || textFieldRemoveJobs.getText().equals("")) {
 					System.out.println("Bitte im Feld Job ID die ID eingeben!");
 				} else {
-					int s = Integer.parseInt(textFieldRemoveJobs.getText());
-					apiConnection.removeJobs(s);
+					try {
+						int s = Integer.parseInt(textFieldRemoveJobs.getText());
+						apiConnection.removeJob(s);
+					} catch (NumberFormatException exception) {
+						System.out.println("Bitte geben Sie eine valide Zahl ein.");
+					}					
 				}
-				
 			}
 		});
 
@@ -289,6 +320,7 @@ public class FrontEnd {
 
 		centerPanel.add(buttonPrintShares);
 		centerPanel.add(buttonCalculateWinOrLoss);
+		centerPanel.add(buttonRunJobs);
 
 		// position
 		frame.add(panel);
