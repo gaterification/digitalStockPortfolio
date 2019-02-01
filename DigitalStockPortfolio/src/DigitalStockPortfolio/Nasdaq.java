@@ -53,6 +53,5 @@ public class Nasdaq implements StockExchange {
 		} catch (IOException e) {
 			throw new StockExchangeException("StockExchange kann im Moment nicht erreicht werden oder die Aktie " + isinNo + " kann nicht gefunden werden.");
 		}
-
 	}
 }

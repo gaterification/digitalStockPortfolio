@@ -31,9 +31,9 @@ public class JobWorker {
 	}
 
 	protected String runJobs() {
-		String ret = "";
+		ArrayList<String> strReturn = new ArrayList<String>();
 		if (this.jobs.size() == 0) {
-			ret = "Info: Es gibt keine Jobs abzuarbeiten. \n";
+			strReturn.add("Info: Es gibt keine Jobs abzuarbeiten.");
 		} else {
 			// sort job: first all job with type SELL should be executed so there is more money to buy jobs
 			this.jobs.sort(new Comparator<Job>() {
@@ -55,20 +55,21 @@ public class JobWorker {
 				if (job.getJobType() == JobType.BUY) {
 					try {
 						this.handleJobTypeBuy(job);
-						ret = ret + "Info: Job " + job.getId() + " abgearbeitet. \n";
+						strReturn.add("Info: Job " + job.getId() + " geprueft.");
 					} catch (StockExchangeException | JobWorkerException e) {
-						ret = ret + "Fehler beim Job " + job.getId() + ": " + e.getMessage() + "\n";
+						strReturn.add("Fehler beim Job " + job.getId() + ": " + e.getMessage());
 					}
 				} else {
 					try {
 						this.handleJobTypeSell(job);
-						ret = ret + "Info: Job " + job.getId() + " abgearbeitet. \n";
+						strReturn.add("Info: Job " + job.getId() + " geprueft.");
 					} catch (StockExchangeException | JobWorkerException e) {
-						ret = ret + "Fehler beim Job " + job.getId() + ": " + e.getMessage() + "\n";						}
+						strReturn.add("Fehler beim Job " + job.getId() + ": " + e.getMessage());						
+					}
 				}
 			}
 		}
-		return ret;
+		return String.join("\n", strReturn);
 	}
 
 	protected ArrayList<Job> getJobs() {
