@@ -1,4 +1,4 @@
-package FrontEndDigitalStockPortfolio;
+package ch.hwz.sem3.dsp.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

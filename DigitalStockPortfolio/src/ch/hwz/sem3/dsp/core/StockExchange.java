@@ -1,4 +1,4 @@
-package DigitalStockPortfolio;
+package ch.hwz.sem3.dsp.core;
 
 public interface StockExchange {	
 	// methods

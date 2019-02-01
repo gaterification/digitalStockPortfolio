@@ -1,15 +1,16 @@
-package ApiDigitalStockPortfolio;
+package ch.hwz.sem3.dsp.api;
 
 import java.util.ArrayList;
-import DigitalStockPortfolio.Account;
-import DigitalStockPortfolio.AccountException;
-import DigitalStockPortfolio.CustodyAccount;
-import DigitalStockPortfolio.CustodyAccountException;
-import DigitalStockPortfolio.Job;
-import DigitalStockPortfolio.Nasdaq;
-import DigitalStockPortfolio.Share;
-import DigitalStockPortfolio.StockExchange;
-import DigitalStockPortfolio.StockExchangeException;
+
+import ch.hwz.sem3.dsp.core.Account;
+import ch.hwz.sem3.dsp.core.AccountException;
+import ch.hwz.sem3.dsp.core.CustodyAccount;
+import ch.hwz.sem3.dsp.core.CustodyAccountException;
+import ch.hwz.sem3.dsp.core.Job;
+import ch.hwz.sem3.dsp.core.Nasdaq;
+import ch.hwz.sem3.dsp.core.Share;
+import ch.hwz.sem3.dsp.core.StockExchange;
+import ch.hwz.sem3.dsp.core.StockExchangeException;
 
 public class ApiDigitalStockPortfolio {
 	private Account account;
@@ -57,10 +58,9 @@ public class ApiDigitalStockPortfolio {
 		return this.custodyAccount.getCustodyAccountNumber();
 	}
 	
-	public String getMarketPrice(String isinNo) throws ApiDigitalStockPortfolioException {
+	public double getMarketPrice(String isinNo) throws ApiDigitalStockPortfolioException {
 		try {
-			double currentMarketPrice = this.custodyAccount.getMarketPrice(isinNo);
-			return String.valueOf(currentMarketPrice);
+			return this.custodyAccount.getMarketPrice(isinNo);
 		} catch (StockExchangeException e) {
 			System.err.println(e.getMessage());
 			throw new ApiDigitalStockPortfolioException(e.getMessage());

@@ -1,4 +1,4 @@
-package FrontEndDigitalStockPortfolio;
+package ch.hwz.sem3.dsp.ui;
 
 public class StartDigitalStockPortfolio {
 	public static void main(String[] args) {

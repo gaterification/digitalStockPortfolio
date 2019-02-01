@@ -1,7 +1,7 @@
-package FrontEndDigitalStockPortfolio;
+package ch.hwz.sem3.dsp.ui;
 
-import ApiDigitalStockPortfolio.ApiDigitalStockPortfolio;
-import ApiDigitalStockPortfolio.ApiDigitalStockPortfolioException;
+import ch.hwz.sem3.dsp.api.ApiDigitalStockPortfolio;
+import ch.hwz.sem3.dsp.api.ApiDigitalStockPortfolioException;
 
 public class ApiConnection {
 	private ApiDigitalStockPortfolio api;
@@ -15,7 +15,7 @@ public class ApiConnection {
 		return this.api;
 	}
 
-	// Methoden für die Ausgabe im FrontEnd
+	// Methoden fï¿½r die Ausgabe im FrontEnd
 	public void getAccountBalance() {
 		System.out.println("---------------------------------------------------");
 		System.out.println("Account Saldo betraegt: " + api.getAccountBalance());
@@ -53,7 +53,7 @@ public class ApiConnection {
 
 	public void getMarketPrice(String isinNo) {
 		try {
-			String marketPrice = this.api.getMarketPrice(isinNo);
+			double marketPrice = this.api.getMarketPrice(isinNo);
 			System.out.println("---------------------------------------------------");
 			System.out.println("Marktpreis der " + isinNo + " betraegt: " + marketPrice);
 			System.out.println("---------------------------------------------------");
